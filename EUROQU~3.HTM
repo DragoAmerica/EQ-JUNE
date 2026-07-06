@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EUROQUIP · Ventas 2026 · Portafolio Rodolfo Quirino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f9f9fb; --panel:#ffffff; --panel-h:#fbfbfd;
+  --ink:#17181c; --text:#33353c; --muted:#6b6f76; --faint:#9b9ea5;
+  --line:#e5e6ea; --line2:#f0f1f4;
+  --indigo:#5e6ad2; --indigo-d:#4a55b8; --indigo-bg:rgba(94,106,210,.09); --violet:#8b7ce7;
+  --green:#219653; --red:#e5484d; --amber:#c47f17; --blue:#3f8ef7;
+  --shadow:0 1px 2px rgba(23,24,28,.05);
+  --shadow-l:0 4px 14px rgba(23,24,28,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(700px 320px at 50% -12%,rgba(94,106,210,.06),transparent 65%)}
+::selection{background:rgba(94,106,210,.2)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 24px 64px}
+.topbar{background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:13px 0;position:relative;z-index:40}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-bottom:0}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#6e79d6,#4c58c4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;box-shadow:var(--shadow-l)}
+.brand h1{font-size:16.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.brand p{font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:.4px;margin-top:1px}
+.btn{border:none;border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;font-family:inherit}
+.btn-light{background:var(--panel);color:var(--text);border:1px solid var(--line);box-shadow:var(--shadow)}
+.btn-light:hover{background:var(--panel-h);border-color:#d4d6dc;color:var(--ink)}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin:20px 0 16px;overflow-x:auto;box-shadow:var(--shadow);position:sticky;top:10px;z-index:30}
+.tab{flex:1;min-width:130px;border:none;background:transparent;padding:10px 14px;border-radius:9px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;font-family:inherit;white-space:nowrap}
+.tab:hover{background:var(--line2);color:var(--text)}
+.tab.active{background:var(--indigo);color:#fff;box-shadow:0 2px 8px rgba(94,106,210,.35)}
+.panel{display:none}
+.panel.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sec-title{display:flex;align-items:center;gap:9px;margin:28px 2px 12px;font-size:12.5px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.7px}
+.sec-title:before{content:"";width:3px;height:14px;background:var(--indigo);border-radius:2px}
+.sec-title .sub{font-size:10.5px;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpis.k4{grid-template-columns:repeat(4,1fr)}
+.kpi{background:var(--panel);border-radius:12px;padding:15px 16px;border:1px solid var(--line);position:relative;overflow:hidden;transition:.15s;box-shadow:var(--shadow)}
+.kpi:hover{box-shadow:var(--shadow-l);border-color:#d8dade}
+.kpi .kt{font-size:10.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.kpi .kv{font-size:24px;font-weight:600;color:var(--ink);margin-top:7px;letter-spacing:-.025em}
+.kpi .kd{font-size:11.5px;font-weight:500;margin-top:4px;color:var(--muted)}
+.kpi .bar{position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--indigo)}
+.kpi.b-navy .bar{background:var(--indigo)}
+.kpi.b-teal .bar{background:#26a6c9}
+.kpi.b-blue .bar{background:var(--blue)}
+.kpi.b-green .bar{background:var(--green)}
+.kpi.b-amber .bar{background:#e0a63a}
+.kpi.b-purple .bar{background:var(--violet)}
+.up{color:var(--green)} .down{color:var(--red)}
+.kpi input.meta-in{font-size:20px;font-weight:600;color:var(--ink);border:1px dashed #c9cbd3;border-radius:8px;padding:3px 8px;width:100%;font-family:inherit;margin-top:5px;background:#fbfbfd}
+.kpi input.meta-in:focus{outline:none;border-color:var(--indigo);background:#fff;box-shadow:0 0 0 3px rgba(94,106,210,.15)}
+.mini-gauge{height:5px;background:var(--line2);border-radius:3px;margin-top:9px;overflow:hidden}
+.mini-gauge span{display:block;height:100%;background:linear-gradient(90deg,#5e6ad2,#8a93e8);border-radius:3px}
+.grid{display:grid;gap:12px}
+.g-2{grid-template-columns:1.4fr 1fr} .g-2e{grid-template-columns:1fr 1fr} .g-3{grid-template-columns:1fr 1fr 1fr}
+.card{background:var(--panel);border-radius:12px;padding:16px 17px;border:1px solid var(--line);transition:.15s;box-shadow:var(--shadow)}
+.card:hover{box-shadow:var(--shadow-l)}
+.card h3{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;display:flex;align-items:center;justify-content:space-between;gap:10px;letter-spacing:-.01em}
+.card .hint{font-size:11px;color:var(--muted);font-weight:400;margin-bottom:12px}
+.chart-box{position:relative;height:300px}
+.chart-box.sm{height:250px} .chart-box.lg{height:360px}
+.toggle{display:inline-flex;background:var(--line2);border-radius:8px;padding:2px;gap:2px;border:1px solid var(--line)}
+.toggle button{border:none;background:transparent;padding:5px 11px;border-radius:6px;font-size:11.5px;font-weight:500;color:var(--muted);cursor:pointer;font-family:inherit;transition:.15s}
+.toggle button.on{background:#fff;color:var(--indigo-d);box-shadow:var(--shadow);font-weight:600}
+.tbl-tools{display:flex;align-items:center;gap:10px;margin-bottom:11px;flex-wrap:wrap}
+.search{border:1px solid var(--line);border-radius:9px;padding:7px 11px 7px 32px;font-size:12.5px;font-family:inherit;color:var(--text);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%236b6f76' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 10px center;min-width:230px}
+.search::placeholder{color:var(--faint)}
+.search:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(94,106,210,.14)}
+.tbl-scroll{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:520px;background:#fff}
+.tbl-scroll::-webkit-scrollbar{width:8px;height:8px}
+.tbl-scroll::-webkit-scrollbar-track{background:transparent}
+.tbl-scroll::-webkit-scrollbar-thumb{background:#d4d6dc;border-radius:5px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{background:#f6f7f9;color:var(--muted);text-align:left;padding:9px 12px;font-weight:600;font-size:11px;letter-spacing:.2px;position:sticky;top:0;white-space:nowrap;border-bottom:1px solid var(--line);z-index:2}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--line2)}
+tbody tr:hover{background:#f7f8fc}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.tot{font-weight:700;background:#f3f4f8}
+th.sort{cursor:pointer;user-select:none}
+th.sort:hover{color:var(--ink)}
+.bdg{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600}
+.bdg.a{background:rgba(33,150,83,.12);color:#1a7a44} .bdg.b{background:rgba(224,166,58,.15);color:#9a6c10} .bdg.c{background:rgba(229,72,77,.12);color:#c03539}
+.bdg.new{background:var(--indigo-bg);color:var(--indigo-d)}
+.pos{color:var(--green);font-weight:600} .neg{color:var(--red);font-weight:600} .neu{color:var(--muted);font-weight:500}
+.note{font-size:11.5px;color:var(--text);background:#fff;border:1px solid var(--line);border-left:2px solid var(--indigo);border-radius:10px;padding:10px 14px;margin-top:8px;box-shadow:var(--shadow)}
+.note b{color:var(--ink)}
+.foot{text-align:center;color:var(--faint);font-size:11px;margin-top:34px}
+.rstate{display:inline-block;padding:2px 9px;border-radius:6px;font-size:10.5px;font-weight:600;letter-spacing:.2px}
+.rstate.ok{background:rgba(33,150,83,.12);color:#1a7a44}
+.rstate.mid{background:rgba(224,166,58,.15);color:#9a6c10}
+.rstate.bad{background:rgba(229,72,77,.12);color:#c03539}
+.spark{display:inline-flex;align-items:flex-end;gap:2px;height:18px;width:58px}
+.spark i{flex:1;background:rgba(94,106,210,.75);border-radius:1.5px;min-height:2px}
+.spark i.z{background:rgba(23,24,28,.08)}
+.avr{padding:9px 2px;border-bottom:1px solid var(--line2)}
+.avr:last-child{border-bottom:none}
+.avr-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.avr-n{font-size:12px;font-weight:600;color:var(--ink)}
+.avr-v{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.avr-track{position:relative;height:8px;background:var(--line2);border-radius:5px}
+.avr-fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;max-width:100%}
+.avr-50{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:rgba(23,24,28,.25);border-radius:1px}
+@media(max-width:1100px){.kpis,.kpis.k4{grid-template-columns:repeat(2,1fr)}.g-2,.g-2e,.g-3{grid-template-columns:1fr}}
+@media print{.topbar,.tabs,.btn,.search{display:none!important}.panel{display:none!important}.panel.active{display:block!important}.card,.kpi{box-shadow:none;break-inside:avoid}.tbl-scroll{max-height:none}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><div class="logo">E</div><div><h1>EUROQUIP · Ventas 2026</h1><p>PORTAFOLIO V-RODOLFO QUIRINO PERDOMO · 6 CLIENTES · ENE–JUN 2026 · METAS OFICIALES</p></div></div>
+    <button class="btn btn-light" onclick="window.print()">⤓ Exportar PDF</button>
+  </div>
+</div>
+<div class="wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="res">Resumen</button>
+    <button class="tab" data-t="cli">Clientes</button>
+    <button class="tab" data-t="met">Metas</button>
+    <button class="tab" data-t="comp">2025 vs 2026</button>
+    <button class="tab" data-t="prod">Productos</button>
+  </div>
+
+  <section class="panel active" id="p-res">
+    <div class="sec-title">Indicadores <span class="sub">· Ene–Jun 2026 · semestre completo</span></div>
+    <div class="kpis" id="kpi-res"></div>
+    <div class="sec-title">Evolución mensual</div>
+    <div class="grid g-2">
+      <div class="card"><h3>Venta mensual 2026 vs meta</h3><div class="hint" id="evol-hint"></div><div class="chart-box lg"><canvas id="c-evol"></canvas></div></div>
+      <div class="card"><h3>Detalle mensual</h3><div class="hint">Real vs meta mensual del sistema</div><div class="tbl-scroll" style="max-height:360px"><table id="t-mes"></table></div></div>
+    </div>
+    <div class="sec-title">Acumulado y categorías</div>
+    <div class="grid g-2">
+      <div class="card"><h3>Acumulado real vs ritmo de meta</h3><div class="hint">Azul = venta acumulada · gris = lo que la meta pide llevar cada mes</div><div class="chart-box lg"><canvas id="c-acum"></canvas></div></div>
+      <div class="card"><h3>Participación por categoría</h3><div class="hint">Venta Ene–Jun por línea de producto</div><div class="chart-box lg"><canvas id="c-cat"></canvas></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-cli">
+    <div class="sec-title">Cartera de clientes <span class="sub">· clientes activos en 2026</span></div>
+    <div class="kpis k4" id="kpi-cli"></div>
+    <div class="grid g-2" style="margin-top:14px">
+      <div class="card"><h3>Venta por cliente</h3><div class="hint">Ene–Jun 2026 · morado = coincidente con 2025 · claro = cliente nuevo</div><div class="chart-box" style="height:420px"><canvas id="c-topcli"></canvas></div></div>
+      <div class="card"><h3>Pareto 80/20</h3><div class="hint" id="pareto-hint"></div><div class="chart-box" style="height:420px"><canvas id="c-pareto"></canvas></div></div>
+    </div>
+    <div class="sec-title">Qué compra cada cliente <span class="sub">· productos favoritos por cliente · clic en un cliente para cambiarlo</span></div>
+    <div class="card">
+      <h3>Top productos del cliente <span class="toggle" id="tg-cliprod"></span></h3>
+      <div class="hint" id="cliprod-hint"></div>
+      <div class="grid g-2e">
+        <div class="chart-box" style="height:380px"><canvas id="c-cliprod"></canvas></div>
+        <div class="tbl-scroll" style="max-height:380px"><table id="t-cliprod"></table></div>
+      </div>
+    </div>
+    <div class="sec-title">Ranking completo</div>
+    <div class="card"><div class="tbl-tools"><input class="search" id="s-cli" placeholder="Buscar cliente..."></div><div class="tbl-scroll" style="max-height:480px"><table id="t-cli"></table></div></div>
+  </section>
+
+  <section class="panel" id="p-met">
+    <div class="sec-title">Metas 2026 · Portafolio Rodolfo <span class="sub">· metas oficiales por categoría</span></div>
+    <div class="kpis" id="kpi-met"></div>
+    <div class="sec-title">Meta vs real · mes a mes</div>
+    <div class="grid g-2">
+      <div class="card"><h3>% de cumplimiento por mes</h3><div class="hint" id="pace-hint"></div><div class="chart-box lg"><canvas id="c-pace"></canvas></div></div>
+      <div class="card"><h3>Detalle de ritmo</h3><div class="hint">Meta oficial del mes vs venta real · % del mes y acumulado</div><div class="tbl-scroll" style="max-height:360px"><table id="t-pace"></table></div></div>
+    </div>
+    <div class="sec-title">Metas por categoría <span class="sub">· lo que pide la meta Ene–Jun vs lo vendido</span></div>
+    <div class="grid g-2">
+      <div class="card"><h3>Meta Ene–Jun vs real por categoría</h3><div class="hint" id="mc-hint"></div><div class="chart-box lg"><canvas id="c-metacat"></canvas></div></div>
+      <div class="card"><h3>Avance del periodo por categoría</h3><div class="hint">Ordenado por peso de la meta · barra = avance vs meta Ene–Jun (tope visual 100%) · % exacto en texto</div><div id="avance-list"></div></div>
+    </div>
+    <div class="sec-title">Cumplimiento trimestral</div>
+    <div class="grid g-2">
+      <div class="card"><h3>Meta vs real por trimestre</h3><div class="hint" id="q-hint"></div><div class="chart-box lg"><canvas id="c-quarters"></canvas></div></div>
+      <div class="card"><h3>Detalle por trimestre y mes</h3><div class="hint">Q1–Q2 con venta real · Q3–Q4 muestran la meta pendiente</div><div class="tbl-scroll" style="max-height:420px"><table id="t-quarters"></table></div></div>
+    </div>
+    <div class="sec-title">Proyección de cierre · ¿en cuánto acabamos? <span class="sub">· estacionalidad 2025 + tendencia 2026 · con banda de escenarios</span></div>
+    <div class="kpis" id="kpi-fc"></div>
+    <div class="grid g-2" style="margin-top:14px">
+      <div class="card"><h3>2026: real + proyección vs meta</h3><div class="hint">Sólida = real (Ene–Jun) · punteada = proyección (Jul–Dic) · sombra = rango de escenarios · línea fina = meta mensual</div><div class="chart-box lg"><canvas id="c-fc"></canvas></div></div>
+      <div class="card"><h3>Detalle mes a mes</h3><div class="hint">Proyección Jul–Dic con rango de escenarios y % vs meta del mes</div><div class="tbl-scroll" style="max-height:420px"><table id="t-fc"></table></div></div>
+    </div>
+    <div class="sec-title">Tabla maestra de metas <span class="sub">· todo el plan anual en un vistazo</span></div>
+    <div class="card"><div class="tbl-scroll"><table id="t-metas"></table></div></div>
+  </section>
+
+  <section class="panel" id="p-comp">
+    <div class="sec-title">Comparativo Ene–Jun · 2025 vs 2026</div>
+    <div class="note"><b>Regla de comparación:</b> sólo los <b>5 clientes que compraron en ambos años</b> (Gabriela Saldua, FUD Trailers, DK Trailers, ARVI Trailers y VIMAR Trailers). Los clientes nuevos de 2026 (EQUIPOS PARA MERCADOS) no entran a este comparativo.</div>
+    <div class="kpis k4" style="margin-top:14px" id="kpi-comp"></div>
+    <div class="sec-title">Mes contra mes</div>
+    <div class="grid g-2">
+      <div class="card"><h3>Venta mensual · 2025 vs 2026</h3><div class="hint">Clientes coincidentes · Ene–Jun</div><div class="chart-box lg"><canvas id="c-comp"></canvas></div></div>
+      <div class="card"><h3>Detalle mensual</h3><div class="hint">Variación absoluta y porcentual</div><div class="tbl-scroll" style="max-height:360px"><table id="t-comp"></table></div></div>
+    </div>
+    <div class="sec-title">Por cliente y por categoría</div>
+    <div class="grid g-2e">
+      <div class="card"><h3>Por cliente · 2025 vs 2026</h3><div class="hint">Coincidentes, Ene–Jun</div><div class="chart-box lg"><canvas id="c-compcli"></canvas></div><div class="tbl-scroll" style="max-height:260px;margin-top:12px"><table id="t-compcli"></table></div></div>
+      <div class="card"><h3>Por categoría · 2025 vs 2026</h3><div class="hint">Coincidentes, Ene–Jun</div><div class="chart-box lg"><canvas id="c-compcat"></canvas></div><div class="tbl-scroll" style="max-height:260px;margin-top:12px"><table id="t-compcat"></table></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-prod">
+    <div class="sec-title">Productos 2026 <span class="sub">· Ene–Jun · la búsqueda filtra tabla y gráficas en vivo</span></div>
+    <div class="kpis k4" id="kpi-prod"></div>
+    <div class="grid g-2e" style="margin-top:14px">
+      <div class="card"><h3>Top 20 códigos <span class="toggle" id="tg-prod"><button class="on" data-m="money">Por $</button><button data-m="qty">Por unidades</button></span></h3><div class="hint" id="top-hint">Alterna entre pesos y unidades · responde a la búsqueda</div><div class="chart-box" style="height:430px"><canvas id="c-top"></canvas></div></div>
+      <div class="card"><h3>Ranking completo</h3><div class="tbl-tools"><input class="search" id="s-prod" placeholder="Buscar código, descripción o categoría..."></div><div class="tbl-scroll" style="max-height:430px"><table id="t-prod"></table></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Top códigos por mes <span class="toggle" id="tg-mes"></span></h3><div class="hint" id="topmes-hint"></div><div class="chart-box" style="height:380px"><canvas id="c-topmes"></canvas></div></div>
+  </section>
+
+  <div class="foot">EUROQUIP · Ventas 2026 — Portafolio V-Rodolfo Quirino · Fuente: <b>June EQ2.xlsx</b> — ventas Ene–Jun 2026 (Hoja1) y metas oficiales por categoría (Hoja2) · 2025 desde sistema · comparativo sólo clientes coincidentes</div>
+</div>
+
+<script>
+const D = {"m26":[5841937.08,7336887.83,7297780.15,9427293.27,10232362.77,9303160.04,0.0,0.0,0.0,0.0,0.0,0.0],"cat26":{"COCCIÓN":27442385.9,"REFRIGERACION PROFESIONAL":16682742.93,"REFRIGERACION COMERCIAL":3043051.31,"MOBILIARIO":1124056.7,"HORNOS":504611.67,"PROCESAMIENTO":278109.85,"MAQUINAS DE HIELO":160945.09,"BEBIDAS":129797.68,"SNACKS":73720.01},"clients":[{"n":"GABRIELA SALDUA SERRATO","v":28606388.4,"fac":156,"m":[2363134.97,5208326.44,3928147.6,5488711.22,6662207.05,4955861.12]},{"n":"FUD TRAILERS MARTINEZ","v":16219545.5,"fac":83,"m":[3008197.19,1897443.59,2091784.15,2553268.97,2757971.07,3910880.53]},{"n":"DK TRAILERS","v":2201008.91,"fac":61,"m":[0.0,0.0,1073277.44,249894.87,486912.2,390924.4]},{"n":"EQUIPOS PARA MERCADOS","v":1908163.19,"fac":58,"m":[470604.92,155529.81,157550.63,876308.51,238606.45,9562.87]},{"n":"ARVI TRAILERS","v":395463.09,"fac":15,"m":[0.0,75587.99,47020.33,198301.88,62608.44,11944.45]},{"n":"VIMAR TRAILERS","v":108852.05,"fac":4,"m":[0.0,0.0,0.0,60807.82,24057.56,23986.67]}],"prods":[{"c":"GFR-321-09","d":"FREIDOR A GAS DE 21 LITROS RS DRAGO","g":"COCCIÓN","u":748,"v":7246085.06,"m":[92,82,114,117,165,178],"vm":[889194.57,791004.59,1115191.22,1132925.09,1596157.29,1721612.3]},{"c":"GPPL-03-00","d":"PLANCHA DE 3FT SILVER","g":"COCCIÓN","u":657,"v":6016422.7,"m":[73,118,91,102,124,149],"vm":[665529.39,1084913.71,835944.55,936582.57,1133663.84,1359788.64]},{"c":"ME-1P-SS-01","d":"MESA PARA ENSALADAS 1 PUERTAS 698MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":295,"v":4319198.96,"m":[45,29,41,49,53,78],"vm":[651158.85,414896.28,629095.15,705508.12,770826.04,1147714.52]},{"c":"GPPL-04-00","d":"PLANCHA DE 4FT SILVER","g":"COCCIÓN","u":221,"v":2725034.75,"m":[25,56,28,33,30,49],"vm":[308793.13,687870.64,349031.73,409982.69,366536.56,602820.0]},{"c":"GPPA-200-V","d":"PARRILLA DE 2 QUEMADORES CON PATAS","g":"COCCIÓN","u":567,"v":2243304.21,"m":[71,94,84,86,111,121],"vm":[280774.6,377041.01,329917.68,341796.99,443098.29,470675.64]},{"c":"GFR-216-09","d":"FREIDOR A GAS DE 16 LITROS DRAGO RS","g":"COCCIÓN","u":217,"v":1828303.12,"m":[20,32,45,39,31,50],"vm":[168507.2,269611.52,379141.2,328589.04,261186.16,421268.0]},{"c":"RV-1PS-SS-01","d":"REFRIGERADOR EN INOXIDABLE 1 PUERTA SOLIDA","g":"REFRIGERACION PROFESIONAL","u":94,"v":1804762.06,"m":[15,9,20,15,25,10],"vm":[281364.89,164551.77,401967.48,286013.41,481189.73,189674.78]},{"c":"GES-040-000","d":"ESTUFA CON 4 QUEMADORES Y HORNO","g":"COCCIÓN","u":111,"v":1728615.29,"m":[23,28,0,22,13,25],"vm":[360730.05,434329.19,0.0,344518.38,199341.44,389696.23]},{"c":"ME-2P-SS-01","d":"MESA PARA ENSALADAS 2 PUERTAS 1188MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":78,"v":1623957.06,"m":[21,13,20,15,9,0],"vm":[443290.15,270554.37,427705.98,304247.73,178158.83,0.0]},{"c":"GPPA-400-V","d":"PARRILLA DE 4 QUEMADORES CON PATAS","g":"COCCIÓN","u":211,"v":1483200.98,"m":[33,35,36,18,50,39],"vm":[230739.12,263503.35,249626.07,122215.71,352541.82,264574.91]},{"c":"ME-2P-SS-03","d":"MESA PARA ENSALADAS 2 PUERTAS 920MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":72,"v":1421749.71,"m":[5,19,8,10,25,5],"vm":[102107.88,377746.97,164579.68,196149.13,480442.3,100723.75]},{"c":"RVI-600","d":"REFRIGERADOR VERTICAL CON PUERTA EN INOX 19 PIES Y ETL","g":"REFRIGERACION PROFESIONAL","u":102,"v":1328133.96,"m":[9,13,31,20,9,20],"vm":[120119.43,165731.39,409504.54,260034.69,114547.64,258196.27]},{"c":"RVI-400","d":"REFRIGERADOR VERTICAL CON PUERTA EN INOX 13 PIES Y ETL","g":"REFRIGERACION PROFESIONAL","u":111,"v":1119862.7,"m":[16,26,6,14,25,24],"vm":[165058.72,254654.94,62547.72,140347.47,250399.96,246853.89]},{"c":"GPAS-02-00","d":"ASADOR DE 2FT SILVER RADIANTES DE INOX","g":"COCCIÓN","u":139,"v":970461.55,"m":[17,31,18,10,29,34],"vm":[116959.19,217930.37,126663.41,66282.3,204487.05,238139.23]},{"c":"RVC-1PC-382","d":"REFRIGERADOR 1 PUERTA DE CRISTAL 382 L","g":"REFRIGERACION COMERCIAL","u":65,"v":953622.56,"m":[0,0,10,5,14,36],"vm":[0.0,0.0,148713.33,74202.46,203152.86,527553.91]},{"c":"CV-1PS-SS-01","d":"CONGELADOR EN INOXIDABLE 1 PUERTA SOLIDA","g":"REFRIGERACION PROFESIONAL","u":35,"v":789898.43,"m":[1,6,0,10,12,6],"vm":[22221.33,136155.08,531.49,227870.82,271875.43,131244.28]},{"c":"GPPL-02-00","d":"PLANCHA DE 2FT SILVER","g":"COCCIÓN","u":106,"v":756332.68,"m":[23,13,14,16,21,19],"vm":[161745.22,97681.79,97980.51,112094.88,153931.56,132898.72]},{"c":"F4T151514-12L","d":"FREGADERO CON 4 TINAS","g":"MOBILIARIO","u":66,"v":509124.98,"m":[7,45,0,5,9,0],"vm":[57668.78,344331.0,0.0,38259.0,68866.2,0.0]},{"c":"RV-2PS-SS-01","d":"REFRIGERADOR EN INOXIDABLE 2 PUERTA SOLIDAS","g":"REFRIGERACION PROFESIONAL","u":16,"v":479093.39,"m":[1,0,1,10,3,1],"vm":[27715.01,0.0,31588.16,301207.12,87458.17,31124.93]},{"c":"GFR-540-09","d":"FREIDOR A GAS DE 40 LITROS DRAGO RS","g":"COCCIÓN","u":35,"v":451559.42,"m":[8,1,5,14,6,1],"vm":[104661.72,13165.0,63191.99,182993.47,75040.49,12506.75]},{"c":"BME-2-120-EG-CT","d":"BAÑO MARIA ELECTRICO DE 2 INSERTOS CON TINAS INCLUIDAS","g":"MOBILIARIO","u":53,"v":400873.82,"m":[8,11,11,19,4,0],"vm":[60245.03,80604.23,84815.47,143132.45,32076.64,0.0]},{"c":"GFR-105-00","d":"FREIDOR A GAS DE 5 LITROS","g":"COCCIÓN","u":122,"v":380641.22,"m":[10,32,25,10,30,15],"vm":[31200.1,99840.32,78000.25,31200.1,93600.3,46800.15]},{"c":"BRM-2C-SS-01","d":"BASE REFRIGERADA MODULARES 924 MM","g":"REFRIGERACION PROFESIONAL","u":17,"v":379383.31,"m":[0,0,7,4,5,1],"vm":[0.0,0.0,162798.61,87912.11,106264.42,22408.17]},{"c":"GPAS-03-00","d":"ASADOR DE 3FT SILVER RADIANTES INOX","g":"COCCIÓN","u":41,"v":338288.42,"m":[2,10,3,7,3,16],"vm":[17175.24,82393.87,23980.86,60113.35,22473.68,132151.42]},{"c":"RBB-2P-SS-01","d":"REFRIGERADOR BAJO BARRA 2 PUERTAS","g":"REFRIGERACION PROFESIONAL","u":18,"v":334345.83,"m":[3,2,8,2,3,0],"vm":[56027.59,37134.53,152308.21,37501.24,51374.26,0.0]},{"c":"BRM-4C-SS-01","d":"BASE REFRIGERADA MODULARES 1830 MM","g":"REFRIGERACION PROFESIONAL","u":10,"v":332404.23,"m":[0,2,1,3,4,0],"vm":[0.0,68082.41,35092.33,97815.83,131413.66,0.0]},{"c":"BRM-2C-SS-02","d":"BASE REFRIGERADA MODULARES 1318 MM","g":"REFRIGERACION PROFESIONAL","u":14,"v":322967.92,"m":[0,0,0,10,4,0],"vm":[0.0,0.0,0.0,229722.76,93245.16,0.0]},{"c":"RVC-2PC-950","d":"REFRIGERADOR 2 PUERTAS DE CRISTAL 950 L","g":"REFRIGERACION COMERCIAL","u":13,"v":312691.58,"m":[0,0,6,0,2,5],"vm":[0.0,0.0,148262.15,0.0,46246.23,118183.2]},{"c":"CV-1PC-SS-01","d":"CONGELADOR EN INOXIDABLE 1 PUERTA DE CRISTAL","g":"REFRIGERACION PROFESIONAL","u":12,"v":308400.87,"m":[0,0,0,0,12,0],"vm":[0.0,0.0,0.0,0.0,308400.87,0.0]},{"c":"GPFO-01-SH","d":"ESTUFON A GAS PROPANO DE 1 SECCION ALTURA ESTANDAR","g":"COCCIÓN","u":55,"v":282140.17,"m":[4,20,5,11,6,9],"vm":[19971.17,103170.0,25792.5,56478.44,30707.77,46020.29]},{"c":"GCO613","d":"HORNO GAS CONVECCION","g":"HORNOS","u":7,"v":275100.0,"m":[0,0,0,7,0,0],"vm":[0.0,0.0,0.0,275100.0,0.0,0.0]},{"c":"GES-060-000","d":"ESTUFA DE 6 QUEMADORES Y HORNO","g":"COCCIÓN","u":14,"v":251980.39,"m":[0,3,4,2,2,3],"vm":[0.0,53696.19,72987.99,36128.51,35096.26,54071.44]},{"c":"RVC-1PC-530","d":"REFRIGERADOR 1 PUERTA DE CRISTAL 530 L","g":"REFRIGERACION COMERCIAL","u":15,"v":241836.75,"m":[0,0,0,5,0,10],"vm":[0.0,0.0,0.0,80612.25,0.0,161224.5]},{"c":"CV-2PS-SS-01","d":"CONGELADOR EN INOXIDABLE 2 PUERTAS SOLIDAS","g":"REFRIGERACION PROFESIONAL","u":7,"v":232707.31,"m":[0,2,0,0,5,0],"vm":[0.0,72021.24,0.0,0.0,160686.07,0.0]},{"c":"RBB-3P-SS-01","d":"REFRIGERADOR BAJO BARRA 3 PUERTAS","g":"REFRIGERACION PROFESIONAL","u":9,"v":229688.53,"m":[0,1,0,3,5,0],"vm":[0.0,26113.61,0.0,78905.83,124669.09,0.0]},{"c":"RV-2PC-SS-01","d":"REFRIGERADOR EN INOXIDABLE 2 PUERTAS CRISTAL","g":"REFRIGERACION PROFESIONAL","u":8,"v":229337.81,"m":[0,0,1,1,5,1],"vm":[0.0,0.0,34041.56,33163.26,133752.25,28380.74]},{"c":"CTC-07-G","d":"CONGELADOR TAPA DE COFRE DE 07 FT CU DRAGO","g":"REFRIGERACION COMERCIAL","u":42,"v":202079.27,"m":[5,1,4,15,2,15],"vm":[24831.34,5040.0,20275.44,69437.8,9861.2,72633.49]},{"c":"ME-3P-SS-01","d":"MESA PARA ENSALADAS 3 PUERTAS 1787MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":7,"v":194171.61,"m":[0,0,0,3,4,0],"vm":[0.0,0.0,0.0,85139.55,109032.06,0.0]},{"c":"RBB-1P-SS-01","d":"REFRIGERADOR BAJO BARRA 1 PUERTA","g":"REFRIGERACION PROFESIONAL","u":15,"v":192624.24,"m":[1,2,3,6,3,0],"vm":[12614.73,28013.77,37391.61,75660.4,38943.73,0.0]},{"c":"CTC-05-G","d":"CONGELADOR TAPA DE COFRE DE 05 FT CU DRAGO","g":"REFRIGERACION COMERCIAL","u":43,"v":186029.38,"m":[9,0,9,16,2,7],"vm":[38891.05,0.0,40284.1,67478.38,8674.26,30701.59]},{"c":"RVC-2PC-1123","d":"REFRIGERADOR 2 PUERTAS CRISTAL 1123 L","g":"REFRIGERACION COMERCIAL","u":7,"v":179230.8,"m":[0,0,2,5,0,0],"vm":[0.0,0.0,51208.8,128022.0,0.0,0.0]},{"c":"CBR-3PC-SS-01","d":"CONTRA BARRA REFRIGERADA 3 PUERTAS DE CRISTAL","g":"REFRIGERACION PROFESIONAL","u":7,"v":162358.53,"m":[0,0,0,2,5,0],"vm":[0.0,0.0,0.0,49563.55,112794.98,0.0]},{"c":"MH-127-BB","d":"MAQUINA DE HIELO DE 127KG/DIA","g":"MAQUINAS DE HIELO","u":9,"v":160945.09,"m":[0,0,4,0,5,0],"vm":[0.0,0.0,72606.46,0.0,88338.63,0.0]},{"c":"CBR-2PC-SS-01","d":"CONTRA BARRA REFRIGERADA 2 PUERTAS DE CRISTAL","g":"REFRIGERACION PROFESIONAL","u":7,"v":148974.17,"m":[0,0,0,2,5,0],"vm":[0.0,0.0,0.0,42709.75,106264.42,0.0]},{"c":"CBB-2P-SS-01","d":"CONGELADOR BAJO BARRA 2 PUERTAS","g":"REFRIGERACION PROFESIONAL","u":7,"v":147909.05,"m":[0,0,3,2,2,0],"vm":[0.0,0.0,65925.72,41459.71,40523.62,0.0]},{"c":"GPPA-600-V","d":"PARRILLA DE 6 QUEMADORES CON PATAS","g":"COCCIÓN","u":16,"v":136080.08,"m":[3,5,2,2,2,2],"vm":[24542.33,45030.01,16975.09,16792.11,15095.55,17644.99]},{"c":"CBR-2PC-SS-02","d":"CONTRA BARRA REFRIGERADA 2 PUERTAS DE CRISTAL","g":"REFRIGERACION PROFESIONAL","u":7,"v":126122.36,"m":[0,0,0,2,2,3],"vm":[0.0,0.0,0.0,37336.42,35458.34,53327.6]},{"c":"CBB-1P-SS-01","d":"CONGELADOR BAJO BARRA 1 PUERTA","g":"REFRIGERACION PROFESIONAL","u":8,"v":121310.15,"m":[0,0,0,3,5,0],"vm":[0.0,0.0,0.0,46665.93,74644.22,0.0]},{"c":"KIT-FILTERS-10","d":"KIT DE FILTROS TIPO U PARA CAMPANA 10'","g":"MOBILIARIO","u":59,"v":113634.0,"m":[0,0,1,1,0,57],"vm":[0.0,0.0,1926.0,1926.0,0.0,109782.0]},{"c":"RVC-1PC-254","d":"REFRIGERADOR 1 PUERTA DE CRISTAL 254 L","g":"REFRIGERACION COMERCIAL","u":8,"v":107673.77,"m":[0,0,7,0,0,1],"vm":[0.0,0.0,94214.55,0.0,0.0,13459.22]},{"c":"CTC-10-G","d":"CONGELADOR TAPA DE COFRE DE 10 FT CU DRAGO","g":"REFRIGERACION COMERCIAL","u":18,"v":106551.27,"m":[5,0,1,8,1,3],"vm":[29782.5,0.0,6294.79,45760.94,6116.88,18596.16]},{"c":"RBB-2P-SS-02","d":"REFRIGERADOR BAJO BARRA 2 PUERTAS 1562 MM","g":"REFRIGERACION PROFESIONAL","u":5,"v":106544.09,"m":[0,2,0,0,3,0],"vm":[0.0,43432.2,0.0,0.0,63111.89,0.0]},{"c":"CTC-24-SS-G","d":"CONGELADOR TAPA DE COFRE GRIS DE 24 FT CU ICEHAUS TAPA DE INOX","g":"REFRIGERACION COMERCIAL","u":8,"v":103147.82,"m":[0,0,0,0,8,0],"vm":[0.0,0.0,0.0,0.0,103147.82,0.0]},{"c":"LISAXAF013","d":"HORNO LISA 3 460X330","g":"HORNOS","u":10,"v":102223.32,"m":[10,0,0,0,0,0],"vm":[102223.32,0.0,0.0,0.0,0.0,0.0]},{"c":"CBB-2P-SS-02","d":"CONGELADOR BAJO BARRA 2 PUERTAS","g":"REFRIGERACION PROFESIONAL","u":4,"v":100611.17,"m":[0,2,0,0,2,0],"vm":[0.0,51467.16,0.0,0.0,49144.01,0.0]},{"c":"GGR-001-02","d":"HORNO TRADICIONAL HT-3","g":"HORNOS","u":8,"v":100306.43,"m":[0,2,0,2,0,4],"vm":[0.0,25006.1,0.0,25288.13,0.0,50012.2]},{"c":"VS-68-C","d":"VITRINA SOBREMOSTRADOR REFRIGERADA CURVA 68cm","g":"REFRIGERACION COMERCIAL","u":10,"v":98000.1,"m":[10,0,0,0,0,0],"vm":[98000.1,0.0,0.0,0.0,0.0,0.0]},{"c":"CHPC-260","d":"CONGELADOR HORIZONTAL PALETERO CURVO 260L","g":"REFRIGERACION COMERCIAL","u":10,"v":93787.8,"m":[0,0,0,10,0,0],"vm":[0.0,0.0,0.0,93787.8,0.0,0.0]},{"c":"GPAS-04-00","d":"ASADOR DE 4FT SILVER RADIANTES  INOX","g":"COCCIÓN","u":8,"v":84049.91,"m":[0,2,0,1,3,2],"vm":[0.0,20934.59,0.0,10623.58,31498.34,20993.4]},{"c":"GPA-220-VE","d":"PARRILLA DE 2 QUEMADORES Y PLANCHA 2FT","g":"COCCIÓN","u":8,"v":83137.92,"m":[2,0,2,0,3,1],"vm":[21607.11,0.0,21607.11,0.0,29660.32,10263.38]},{"c":"ME-2P-SS-02","d":"MESA PARA ENSALADAS 2 PUERTAS 1529MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":3,"v":77744.28,"m":[0,0,3,0,0,0],"vm":[0.0,0.0,77744.28,0.0,0.0,0.0]},{"c":"CTC-16-G","d":"CONGELADOR TAPA DE COFRE GRIS DE 16 FT CU DRAGO","g":"REFRIGERACION COMERCIAL","u":8,"v":72667.88,"m":[3,0,0,5,0,0],"vm":[28129.5,0.0,0.0,44538.38,0.0,0.0]},{"c":"GPFO-03-VSH","d":"ESTUFON A GAS PROPANO DE 3 SECCIONES HORIZONTAL ALTURA ESTANDAR","g":"COCCIÓN","u":6,"v":71672.01,"m":[0,2,3,1,0,0],"vm":[0.0,24091.43,36137.15,11443.43,0.0,0.0]},{"c":"CHPC-460","d":"CONGELADOR HORIZONTAL PALETERO CURVO 460L","g":"REFRIGERACION COMERCIAL","u":5,"v":59857.41,"m":[0,0,0,5,0,0],"vm":[0.0,0.0,0.0,59857.41,0.0,0.0]},{"c":"CHPC-560","d":"CONGELADOR HORIZONTAL PALETERO CURVO 560L","g":"REFRIGERACION COMERCIAL","u":4,"v":58936.79,"m":[0,0,0,3,1,0],"vm":[0.0,0.0,0.0,45334.92,13601.87,0.0]},{"c":"CTC-24-G","d":"CONGELADOR TAPA DE COFRE GRIS DE 24 FT CU DRAGO","g":"REFRIGERACION COMERCIAL","u":5,"v":58700.0,"m":[0,0,0,5,0,0],"vm":[0.0,0.0,0.0,58700.0,0.0,0.0]},{"c":"GES-042-100","d":"ESTUFA UNIV. CON 4 QUEM HORNO ASADOR PLANCHA FREI Y GRAT","g":"COCCIÓN","u":2,"v":56294.28,"m":[0,0,0,1,1,0],"vm":[0.0,0.0,0.0,28147.14,28147.14,0.0]},{"c":"CHPC-360","d":"CONGELADOR HORIZONTAL PALETERO CURVO 360L","g":"REFRIGERACION COMERCIAL","u":5,"v":55043.48,"m":[0,0,0,5,0,0],"vm":[0.0,0.0,0.0,55043.48,0.0,0.0]},{"c":"CHPC-160","d":"CONGELADOR HORIZONTAL PALETERO CURVO 160L","g":"REFRIGERACION COMERCIAL","u":7,"v":51001.18,"m":[0,0,0,7,0,0],"vm":[0.0,0.0,0.0,51001.18,0.0,0.0]},{"c":"LCD-15C-B","d":"LICUADORA COMERCIAL DIGITAL 1.5 L CON CAPOTA BLANCO","g":"BEBIDAS","u":8,"v":50629.31,"m":[3,0,0,5,0,0],"vm":[19162.97,0.0,0.0,31466.34,0.0,0.0]},{"c":"BP-40-G","d":"BATIDORA PLANETARIA 40 L GRIS 3 VELOCIDADES 110 V","g":"PROCESAMIENTO","u":2,"v":49661.18,"m":[0,0,0,1,1,0],"vm":[0.0,0.0,0.0,24830.59,24830.59,0.0]},{"c":"D20/3","d":"DESPACHADOR BEBIDAS MOD D20/3 UGOLINI","g":"BEBIDAS","u":2,"v":47416.25,"m":[0,2,0,0,0,0],"vm":[0.0,47416.25,0.0,0.0,0.0,0.0]},{"c":"GPA-420-VE","d":"PARRILLA DE 4 QUEMADORES Y PLANCHA 2FT SILVER","g":"COCCIÓN","u":3,"v":46923.19,"m":[1,0,0,1,0,1],"vm":[16180.41,0.0,0.0,15371.39,0.0,15371.39]},{"c":"TFR-10508","d":"FREIDOR A GAS DE 5 LITROS","g":"COCCIÓN","u":15,"v":46800.15,"m":[0,0,0,15,0,0],"vm":[0.0,0.0,0.0,46800.15,0.0,0.0]},{"c":"MC-32P-4HP","d":"MOLINO DE CARNE 32P ACERO INOXIDABLE 4HP 220V 3F CON PEDESTAL","g":"PROCESAMIENTO","u":1,"v":44147.69,"m":[0,0,0,0,1,0],"vm":[0.0,0.0,0.0,0.0,44147.69,0.0]},{"c":"GNAS-03-00","d":"ASADOR DE 3FT SILVER RADIANTES INOX","g":"COCCIÓN","u":5,"v":42938.11,"m":[0,0,0,5,0,0],"vm":[0.0,0.0,0.0,42938.11,0.0,0.0]},{"c":"GES-042-000","d":"ESTUFA DE 4 QUEMADORES, PLANCHA DOBLE Y HORNO","g":"COCCIÓN","u":2,"v":40190.0,"m":[2,0,0,0,0,0],"vm":[40190.0,0.0,0.0,0.0,0.0,0.0]},{"c":"RVC-3PC-1885","d":"REFRIGERADOR DE 3 PUERTAS CRISTAL 1408.6 L","g":"REFRIGERACION COMERCIAL","u":1,"v":39717.6,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,39717.6,0.0,0.0]},{"c":"CVC15AB2M-A","d":"CONGELADOR VERTICAL CVC15 PTA ALUM GAB BLANCO","g":"REFRIGERACION COMERCIAL","u":2,"v":39158.65,"m":[0,0,0,0,0,2],"vm":[0.0,0.0,0.0,0.0,0.0,39158.65]},{"c":"ED-05-NV","d":"EXTRACTOR DE 0.5HP, DIRECTO, VELOCIDAD NO VARIABLE.","g":"MOBILIARIO","u":4,"v":34602.8,"m":[0,3,1,0,0,0],"vm":[0.0,24686.0,9916.8,0.0,0.0,0.0]},{"c":"LIM-40-G","d":"LICUADORA INDUSTRIAL MANUAL 4.0 L GRIS","g":"PROCESAMIENTO","u":4,"v":33595.45,"m":[2,0,0,2,0,0],"vm":[17569.05,0.0,0.0,16026.4,0.0,0.0]},{"c":"MC-32P-2HP","d":"MOLINO DE CARNE 32F ACERO INOXIDABLE 2HP 220V 3F CON PEDESTAL","g":"PROCESAMIENTO","u":1,"v":29431.8,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,29431.8,0.0,0.0]},{"c":"GH-813","d":"PARRILLA ASADOR DOBLE CONTACTO","g":"SNACKS","u":6,"v":29187.89,"m":[0,0,2,3,1,0],"vm":[0.0,0.0,9832.06,14582.74,4773.09,0.0]},{"c":"MP-2P-SS-02","d":"MESA PARA PIZZAS 2 PUERTAS 1709MM DE FRENTE","g":"REFRIGERACION PROFESIONAL","u":1,"v":28698.91,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,28698.91,0.0,0.0]},{"c":"ANNAXF023","d":"HORNO ANNA 4X460X330","g":"HORNOS","u":2,"v":26981.92,"m":[1,0,0,0,1,0],"vm":[14508.0,0.0,0.0,0.0,12473.92,0.0]},{"c":"GPFO-03-VLH","d":"ESTUFON A GAS PROPANO DE 3 SECCIONES HORIZONTAL ALTURA BAJA","g":"COCCIÓN","u":2,"v":24568.32,"m":[0,0,0,2,0,0],"vm":[0.0,0.0,0.0,24568.32,0.0,0.0]},{"c":"GES-062-000","d":"ESTUFA CON 6 QUEM HORNO PLANCHA DE 2 PIES Y GRAT","g":"COCCIÓN","u":1,"v":23633.41,"m":[0,0,0,0,1,0],"vm":[0.0,0.0,0.0,0.0,23633.41,0.0]},{"c":"CTC-24-SS","d":"CONGELADOR TAPA DE COFRE DE 24 FT CU ICEHAUS TAPA DE INOX","g":"REFRIGERACION COMERCIAL","u":2,"v":23317.22,"m":[0,0,0,0,2,0],"vm":[0.0,0.0,0.0,0.0,23317.22,0.0]},{"c":"UWB-S","d":"WAFFLERA","g":"SNACKS","u":5,"v":21842.34,"m":[0,0,0,5,0,0],"vm":[0.0,0.0,0.0,21842.34,0.0,0.0]},{"c":"GGR-001-03","d":"SALAMANDRA CON GATILLO DE 5 POSICIONES 2015","g":"COCCIÓN","u":2,"v":21767.63,"m":[0,0,0,2,0,0],"vm":[0.0,0.0,0.0,21767.63,0.0,0.0]},{"c":"AI-20-1T","d":"AMASADORA INDUSTRIAL 20 L 1 VELOCIDAD CON TEMPORIZADOR 110 V","g":"PROCESAMIENTO","u":2,"v":19963.9,"m":[0,0,0,0,2,0],"vm":[0.0,0.0,0.0,0.0,19963.9,0.0]},{"c":"AI-60-1T","d":"AMASADORA INDUSTRIAL 60 L 1 VELOCIDAD CON TEMPORIZADOR 220 V","g":"PROCESAMIENTO","u":1,"v":19793.31,"m":[0,0,0,0,1,0],"vm":[0.0,0.0,0.0,0.0,19793.31,0.0]},{"c":"RV-1PC-SS-01","d":"REFRIGERADOR EN INOXIDABLE 1 PUERTA CRISTAL","g":"REFRIGERACION PROFESIONAL","u":1,"v":19782.29,"m":[0,0,1,0,0,0],"vm":[0.0,0.0,20549.14,0.0,-766.85,0.0]},{"c":"BD-2612","d":"BASE DRAGO DE 1 PIES 330x665x634mm","g":"MOBILIARIO","u":10,"v":19410.0,"m":[0,1,4,5,0,0],"vm":[0.0,1941.0,7764.0,9705.0,0.0,0.0]},{"c":"REB-350-VB","d":"REBANADORA CUCHILLA 350MM VERTICAL DE BANDA","g":"PROCESAMIENTO","u":1,"v":16247.48,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,16247.48,0.0,0.0]},{"c":"LCD-20-N","d":"LICUADORA COMERCIAL DIGITAL 2.0 L  NEGRO","g":"BEBIDAS","u":6,"v":16120.22,"m":[0,0,0,6,0,0],"vm":[0.0,0.0,0.0,16120.22,0.0,0.0]},{"c":"GES-040-010","d":"ESTUFA CON 4 QUEMADORES, HORNO Y REPISA","g":"COCCIÓN","u":1,"v":15702.48,"m":[0,0,1,0,0,0],"vm":[0.0,0.0,15702.48,0.0,0.0,0.0]},{"c":"D20/2","d":"DESPACHADOR BEBIDAS MOD D20/2 115V 60HZ UGOLINI","g":"BEBIDAS","u":1,"v":15631.9,"m":[0,1,0,0,0,0],"vm":[0.0,15631.9,0.0,0.0,0.0,0.0]},{"c":"BP-10-G","d":"BATIDORA PLANETARIA 10 L GRIS 3 VELOCIDADES 110 V","g":"PROCESAMIENTO","u":2,"v":15474.96,"m":[0,0,0,1,1,0],"vm":[0.0,0.0,0.0,7737.48,7737.48,0.0]},{"c":"AI-40-1T","d":"AMASADORA INDUSTRIAL 40 L 1 VELOCIDAD CON TEMPORIZADOR 110 V","g":"PROCESAMIENTO","u":1,"v":15435.96,"m":[0,0,0,0,0,1],"vm":[0.0,0.0,0.0,0.0,0.0,15435.96]},{"c":"BP-30-G","d":"BATIDORA PLANETARIA 30 L GRIS 3 VELOCIDADES 110 V","g":"PROCESAMIENTO","u":1,"v":13427.87,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,13427.87,0.0,0.0]},{"c":"DE-1","d":"1-PLATE CREPE MAKER","g":"SNACKS","u":4,"v":13364.09,"m":[2,0,0,2,0,0],"vm":[6582.31,0.0,0.0,6781.78,0.0,0.0]},{"c":"EFR-004-00","d":"FREIDOR ELECTRICO DE 5 LITROS","g":"COCCIÓN","u":3,"v":12797.46,"m":[0,1,0,1,1,0],"vm":[0.0,4265.82,0.0,4265.82,4265.82,0.0]},{"c":"MC-32","d":"MOLINO DE CARNE 32 ACERO INOXIDABLE  1.5HP 110 V 1F","g":"PROCESAMIENTO","u":1,"v":12409.89,"m":[0,0,0,0,1,0],"vm":[0.0,0.0,0.0,0.0,12409.89,0.0]},{"c":"GPA-410-VE","d":"PARRILLA DE 4 QUEMADORES Y PLANCHA DE 1FT","g":"COCCIÓN","u":1,"v":11202.23,"m":[0,1,0,0,0,0],"vm":[0.0,11202.23,0.0,0.0,0.0,0.0]},{"c":"MC-10-00","d":"CAMPANA BACKSHELF 10' X 30\" S/FILTROS","g":"MOBILIARIO","u":1,"v":10002.0,"m":[0,0,1,0,0,0],"vm":[0.0,0.0,10002.0,0.0,0.0,0.0]},{"c":"BME-3-120-EG-CT","d":"BAÑO MARIA ELECTRICO DE 3 INSERTOS CON TINAS INCLUIDAS","g":"MOBILIARIO","u":1,"v":9595.1,"m":[0,0,1,0,0,0],"vm":[0.0,0.0,9595.1,0.0,0.0,0.0]},{"c":"GH-811E","d":"PARRILLA ASADOR ELECTRICO PANINI DRAGO","g":"SNACKS","u":3,"v":9325.69,"m":[0,0,0,3,0,0],"vm":[0.0,0.0,0.0,9325.69,0.0,0.0]},{"c":"GPFO-02-HSH","d":"ESTUFON A GAS PROPANO DE 2 SECCIONES HORIZONTAL ALTURA ESTANDAR","g":"COCCIÓN","u":1,"v":8815.7,"m":[0,0,0,0,1,0],"vm":[0.0,0.0,0.0,0.0,8815.7,0.0]},{"c":"V-300","d":"CORTADORA DE VEGETALES CON DISCOS H8, H4, D8, T8, P4","g":"PROCESAMIENTO","u":1,"v":8520.36,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,8520.36,0.0,0.0]},{"c":"GPFO-02-HLH","d":"ESTUFON A GAS PROPANO DE 2 SECCIONES HORIZONTAL ALTURA BAJA","g":"COCCIÓN","u":1,"v":8374.91,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,8374.91,0.0,0.0]},{"c":"MC-06-00","d":"CAMPANA BACKSHELF 6' X 30\" S/FILTROS","g":"MOBILIARIO","u":1,"v":8001.0,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,8001.0,0.0,0.0]},{"c":"KIT-FILTERS-4","d":"KIT DE FILTROS TIPO U PARA CAMPANA 4'","g":"MOBILIARIO","u":8,"v":6840.0,"m":[0,0,0,0,0,8],"vm":[0.0,0.0,0.0,0.0,0.0,6840.0]},{"c":"GPFO-01-LH","d":"ESTUFON A GAS PROPANO DE 1 SECCION ALTURA BAJA","g":"COCCIÓN","u":1,"v":5068.15,"m":[0,0,0,1,0,0],"vm":[0.0,0.0,0.0,5068.15,0.0,0.0]},{"c":"BD-2624","d":"BASE DRAGO DE 2 PIES 635x665x634mm","g":"MOBILIARIO","u":2,"v":4164.0,"m":[2,0,0,0,0,0],"vm":[4164.0,0.0,0.0,0.0,0.0,0.0]},{"c":"KIT-FILTERS-8","d":"KIT DE FILTROS TIPO U PARA CAMPANA 8'","g":"MOBILIARIO","u":2,"v":3138.0,"m":[0,0,0,2,0,0],"vm":[0.0,0.0,0.0,3138.0,0.0,0.0]},{"c":"KIT-FILTERS-6","d":"KIT DE FILTROS TIPO U PARA CAMPANA 6'","g":"MOBILIARIO","u":2,"v":2424.0,"m":[0,0,0,1,0,1],"vm":[0.0,0.0,0.0,1212.0,0.0,1212.0]},{"c":"BD-2636","d":"BASE DRAGO DE 3 PIES 940x665x634mm","g":"MOBILIARIO","u":1,"v":2247.0,"m":[0,0,1,0,0,0],"vm":[0.0,0.0,2247.0,0.0,0.0,0.0]},{"c":"GGR-004-06","d":"HORNO DE PIZZA","g":"HORNOS","u":0,"v":0.0,"m":[0,0,1,0,0,-1],"vm":[0.0,0.0,28578.65,0.0,0.0,-28578.65]}],"matched":["ARVI TRAILERS","DK TRAILERS","FUD TRAILERS MARTINEZ","GABRIELA SALDUA SERRATO","VIMAR TRAILERS"],"nuevos":["EQUIPOS PARA MERCADOS"],"m25jj":[2901415.63,4874412.76,6632429.65,6607457.56,4207425.49,6033444.78],"m26jj":[5371332.16,7181358.02,7140229.52,8550984.76,9993756.32,9293597.17],"cli25jj":{"FUD TRAILERS MARTINEZ":13608351.96,"GABRIELA SALDUA SERRATO":16649129.98,"DK TRAILERS":787145.79,"ARVI TRAILERS":194687.14,"VIMAR TRAILERS":17271.0},"cli26jj":{"GABRIELA SALDUA SERRATO":28606388.4,"ARVI TRAILERS":395463.09,"VIMAR TRAILERS":108852.05,"DK TRAILERS":2201008.91,"FUD TRAILERS MARTINEZ":16219545.5},"cat25jj":{"COCCIÓN":19647679.65,"REFRIGERACION PROFESIONAL":7934603.76,"REFRIGERACION COMERCIAL":2346353.3,"MOBILIARIO":1150986.87,"HORNOS":85161.11,"PROCESAMIENTO":43231.65,"REFACCIONES":42497.86,"LAVADO":3164.07,"BEBIDAS":2907.6},"cat26jj":{"COCCIÓN":25865775.03,"REFRIGERACION PROFESIONAL":16622494.76,"REFRIGERACION COMERCIAL":3043051.31,"MOBILIARIO":1059976.7,"HORNOS":386244.67,"PROCESAMIENTO":269570.22,"MAQUINAS DE HIELO":160945.09,"BEBIDAS":74941.57,"SNACKS":48258.6},"metaAnual":103869868.99480532,"metaMonthly":[7594319.973203472,7982428.808070872,9520638.910172904,8711783.01859742,8139573.038466201,8634127.208117835,9730113.749344,9726226.258045197,8589577.123905787,9280113.028669555,7615804.592393057,8345160.386338494],"metasCat":{"REFRIGERACION PROFESIONAL":{"anual":20773973.79896107,"part":0.2,"com":0.01,"monthly":[1495275.1051563274,1581521.5129046387,1923345.9800384236,1743600.2263549825,1616442.4529924896,1726343.3795817415,1969895.9442986674,1969032.0573433777,1716443.360867953,1869895.7841487902,1500049.464976235,1662128.5302974435]},"REFRIGERACION COMERCIAL":{"anual":10386987.0,"part":0.1,"com":0.01,"monthly":[865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0,865582.0]},"COCCIÓN":{"anual":72708908.29636373,"part":0.7,"com":0.01,"monthly":[5233462.868047144,5535325.295166234,6731710.930134481,6102600.792242438,5657548.585473712,6042201.828536094,6894635.805045334,6891612.20070182,6007551.763037834,6544635.244520764,5250173.127416822,5817449.8560410505]},"HORNOS":{"anual":0.0,"part":0.0,"com":0.01,"monthly":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"MOBILIARIO":{"anual":0.0,"part":0.0,"com":0.01,"monthly":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"PROCESAMIENTO":{"anual":0.0,"part":0.0,"com":0.01,"monthly":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"BEBIDAS":{"anual":0.0,"part":0.0,"com":0.01,"monthly":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"SNACKS":{"anual":0.0,"part":0.0,"com":0.01,"monthly":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]}},"cliProds":{"GABRIELA SALDUA SERRATO":[["GPPL-03-00","PLANCHA DE 3FT SILVER","COCCIÓN",423,3925554.21],["GFR-321-09","FREIDOR A GAS DE 21 LITROS RS DRAGO","COCCIÓN",323,3153100.16],["GFR-216-09","FREIDOR A GAS DE 16 LITROS DRAGO RS","COCCIÓN",200,1685072.0],["GPPA-200-V","PARRILLA DE 2 QUEMADORES CON PATAS","COCCIÓN",364,1505176.4],["GPPL-04-00","PLANCHA DE 4FT SILVER","COCCIÓN",115,1413695.0],["RVI-600","REFRIGERADOR VERTICAL CON PUERTA EN INOX 19 PIES Y ETL","REFRIGERACION PROFESIONAL",102,1328133.96],["ME-1P-SS-01","MESA PARA ENSALADAS 1 PUERTAS 698MM DE FRENTE","REFRIGERACION PROFESIONAL",81,1257008.35],["GES-040-000","ESTUFA CON 4 QUEMADORES Y HORNO","COCCIÓN",61,956175.0],["ME-2P-SS-01","MESA PARA ENSALADAS 2 PUERTAS 1188MM DE FRENTE","REFRIGERACION PROFESIONAL",45,945188.58],["ME-2P-SS-03","MESA PARA ENSALADAS 2 PUERTAS 920MM DE FRENTE","REFRIGERACION PROFESIONAL",46,898005.75],["RVI-400","REFRIGERADOR VERTICAL CON PUERTA EN INOX 13 PIES Y ETL","REFRIGERACION PROFESIONAL",90,890610.67],["GPPA-400-V","PARRILLA DE 4 QUEMADORES CON PATAS","COCCIÓN",105,803000.15],["GPAS-02-00","ASADOR DE 2FT SILVER RADIANTES DE INOX","COCCIÓN",75,546843.94],["CV-1PS-SS-01","CONGELADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",18,416073.39],["F4T151514-12L","FREGADERO CON 4 TINAS","MOBILIARIO",54,413197.2],["GPPL-02-00","PLANCHA DE 2FT SILVER","COCCIÓN",53,407583.36],["GFR-105-00","FREIDOR A GAS DE 5 LITROS","COCCIÓN",120,374401.2],["CV-1PC-SS-01","CONGELADOR EN INOXIDABLE 1 PUERTA DE CRISTAL","REFRIGERACION PROFESIONAL",12,308400.87],["RBB-2P-SS-01","REFRIGERADOR BAJO BARRA 2 PUERTAS","REFRIGERACION PROFESIONAL",16,300024.36],["BRM-2C-SS-02","BASE REFRIGERADA MODULARES 1318 MM","REFRIGERACION PROFESIONAL",13,298910.36]],"EQUIPOS PARA MERCADOS":[["GFR-540-09","FREIDOR A GAS DE 40 LITROS DRAGO RS","COCCIÓN",21,273173.71],["GFR-321-09","FREIDOR A GAS DE 21 LITROS RS DRAGO","COCCIÓN",23,225207.26],["GFR-216-09","FREIDOR A GAS DE 16 LITROS DRAGO RS","COCCIÓN",17,143231.12],["GPPL-03-00","PLANCHA DE 3FT SILVER","COCCIÓN",15,139204.05],["GPPA-200-V","PARRILLA DE 2 QUEMADORES CON PATAS","COCCIÓN",25,103377.5],["GCO613","HORNO GAS CONVECCION","HORNOS",2,78600.0],["GPPA-400-V","PARRILLA DE 4 QUEMADORES CON PATAS","COCCIÓN",10,77225.65],["GPA-220-VE","PARRILLA DE 2 QUEMADORES Y PLANCHA 2FT","COCCIÓN",7,74004.36],["GPFO-03-VSH","ESTUFON A GAS PROPANO DE 3 SECCIONES HORIZONTAL ALTURA ESTANDAR","COCCIÓN",6,71672.01],["GPPL-04-00","PLANCHA DE 4FT SILVER","COCCIÓN",5,61594.41],["ME-2P-SS-01","MESA PARA ENSALADAS 2 PUERTAS 1188MM DE FRENTE","REFRIGERACION PROFESIONAL",3,60248.17],["GES-042-100","ESTUFA UNIV. CON 4 QUEM HORNO ASADOR PLANCHA FREI Y GRAT","COCCIÓN",2,56294.28],["GES-060-000","ESTUFA DE 6 QUEMADORES Y HORNO","COCCIÓN",3,53567.98],["GPA-420-VE","PARRILLA DE 4 QUEMADORES Y PLANCHA 2FT SILVER","COCCIÓN",3,46923.19],["TFR-10508","FREIDOR A GAS DE 5 LITROS","COCCIÓN",15,46800.15],["LCD-15C-B","LICUADORA COMERCIAL DIGITAL 1.5 L CON CAPOTA BLANCO","BEBIDAS",7,44201.8],["F4T151514-12L","FREGADERO CON 4 TINAS","MOBILIARIO",5,38259.0],["GPPA-600-V","PARRILLA DE 6 QUEMADORES CON PATAS","COCCIÓN",3,27617.69],["ANNAXF023","HORNO ANNA 4X460X330","HORNOS",2,26981.92],["GPFO-03-VLH","ESTUFON A GAS PROPANO DE 3 SECCIONES HORIZONTAL ALTURA BAJA","COCCIÓN",2,24568.32]],"ARVI TRAILERS":[["BRM-4C-SS-01","BASE REFRIGERADA MODULARES 1830 MM","REFRIGERACION PROFESIONAL",2,69147.04],["GFR-321-09","FREIDOR A GAS DE 21 LITROS RS DRAGO","COCCIÓN",5,63021.95],["CV-1PS-SS-01","CONGELADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",2,48570.59],["RV-1PS-SS-01","REFRIGERADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",2,41443.98],["GPPL-03-00","PLANCHA DE 3FT SILVER","COCCIÓN",3,35833.34],["RV-2PC-SS-01","REFRIGERADOR EN INOXIDABLE 2 PUERTAS CRISTAL","REFRIGERACION PROFESIONAL",1,33163.26],["ME-2P-SS-03","MESA PARA ENSALADAS 2 PUERTAS 920MM DE FRENTE","REFRIGERACION PROFESIONAL",1,20183.94],["BME-2-120-EG-CT","BAÑO MARIA ELECTRICO DE 2 INSERTOS CON TINAS INCLUIDAS","MOBILIARIO",2,18473.44],["ME-1P-SS-01","MESA PARA ENSALADAS 1 PUERTAS 698MM DE FRENTE","REFRIGERACION PROFESIONAL",1,15592.77],["GPPL-04-00","PLANCHA DE 4FT SILVER","COCCIÓN",1,14377.78],["MC-10-00","CAMPANA BACKSHELF 10' X 30\" S/FILTROS","MOBILIARIO",1,10002.0],["MC-06-00","CAMPANA BACKSHELF 6' X 30\" S/FILTROS","MOBILIARIO",1,8001.0],["CTC-07-G","CONGELADOR TAPA DE COFRE DE 07 FT CU DRAGO","REFRIGERACION COMERCIAL",1,5040.0],["CTC-05-G","CONGELADOR TAPA DE COFRE DE 05 FT CU DRAGO","REFRIGERACION COMERCIAL",1,4410.0],["KIT-FILTERS-10","KIT DE FILTROS TIPO U PARA CAMPANA 10'","MOBILIARIO",2,3852.0],["KIT-FILTERS-8","KIT DE FILTROS TIPO U PARA CAMPANA 8'","MOBILIARIO",2,3138.0],["KIT-FILTERS-6","KIT DE FILTROS TIPO U PARA CAMPANA 6'","MOBILIARIO",1,1212.0]],"VIMAR TRAILERS":[["F4T151514-12L","FREGADERO CON 4 TINAS","MOBILIARIO",5,38259.0],["BRM-2C-SS-02","BASE REFRIGERADA MODULARES 1318 MM","REFRIGERACION PROFESIONAL",1,24057.56],["CV-1PS-SS-01","CONGELADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",1,23986.67],["BRM-2C-SS-01","BASE REFRIGERADA MODULARES 924 MM","REFRIGERACION PROFESIONAL",1,22548.82]],"DK TRAILERS":[["RV-1PS-SS-01","REFRIGERADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",20,418302.9],["GFR-321-09","FREIDOR A GAS DE 21 LITROS RS DRAGO","COCCIÓN",39,394715.15],["ME-1P-SS-01","MESA PARA ENSALADAS 1 PUERTAS 698MM DE FRENTE","REFRIGERACION PROFESIONAL",21,334987.57],["RV-2PS-SS-01","REFRIGERADOR EN INOXIDABLE 2 PUERTA SOLIDAS","REFRIGERACION PROFESIONAL",5,154894.19],["GPPL-03-00","PLANCHA DE 3FT SILVER","COCCIÓN",15,133348.92],["ME-2P-SS-01","MESA PARA ENSALADAS 2 PUERTAS 1188MM DE FRENTE","REFRIGERACION PROFESIONAL",6,129020.93],["GPPL-04-00","PLANCHA DE 4FT SILVER","COCCIÓN",9,111689.68],["RVC-1PC-382","REFRIGERADOR 1 PUERTA DE CRISTAL 382 L","REFRIGERACION COMERCIAL",7,103443.04],["GPPA-200-V","PARRILLA DE 2 QUEMADORES CON PATAS","COCCIÓN",15,53865.09],["RVC-2PC-950","REFRIGERADOR 2 PUERTAS DE CRISTAL 950 L","REFRIGERACION COMERCIAL",2,46969.16],["GPPA-400-V","PARRILLA DE 4 QUEMADORES CON PATAS","COCCIÓN",7,44333.91],["BRM-4C-SS-01","BASE REFRIGERADA MODULARES 1830 MM","REFRIGERACION PROFESIONAL",1,34058.66],["BME-2-120-EG-CT","BAÑO MARIA ELECTRICO DE 2 INSERTOS CON TINAS INCLUIDAS","MOBILIARIO",4,33500.98],["CTC-05-G","CONGELADOR TAPA DE COFRE DE 05 FT CU DRAGO","REFRIGERACION COMERCIAL",7,31225.37],["GPAS-02-00","ASADOR DE 2FT SILVER RADIANTES DE INOX","COCCIÓN",4,26781.82],["GPPA-600-V","PARRILLA DE 6 QUEMADORES CON PATAS","COCCIÓN",3,22810.07],["RV-1PC-SS-01","REFRIGERADOR EN INOXIDABLE 1 PUERTA CRISTAL","REFRIGERACION PROFESIONAL",1,19782.29],["GPPL-02-00","PLANCHA DE 2FT SILVER","COCCIÓN",3,19692.58],["CTC-10-G","CONGELADOR TAPA DE COFRE DE 10 FT CU DRAGO","REFRIGERACION COMERCIAL",3,18561.59],["GES-060-000","ESTUFA DE 6 QUEMADORES Y HORNO","COCCIÓN",1,18198.67]],"FUD TRAILERS MARTINEZ":[["GFR-321-09","FREIDOR A GAS DE 21 LITROS RS DRAGO","COCCIÓN",358,3410040.54],["ME-1P-SS-01","MESA PARA ENSALADAS 1 PUERTAS 698MM DE FRENTE","REFRIGERACION PROFESIONAL",192,2711610.27],["GPPL-03-00","PLANCHA DE 3FT SILVER","COCCIÓN",201,1782482.18],["RV-1PS-SS-01","REFRIGERADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",61,1131512.68],["GPPL-04-00","PLANCHA DE 4FT SILVER","COCCIÓN",91,1123677.88],["GES-040-000","ESTUFA CON 4 QUEMADORES Y HORNO","COCCIÓN",48,741870.43],["RVC-1PC-382","REFRIGERADOR 1 PUERTA DE CRISTAL 382 L","REFRIGERACION COMERCIAL",46,672093.62],["GPPA-200-V","PARRILLA DE 2 QUEMADORES CON PATAS","COCCIÓN",163,580885.22],["GPPA-400-V","PARRILLA DE 4 QUEMADORES CON PATAS","COCCIÓN",89,558641.27],["ME-2P-SS-03","MESA PARA ENSALADAS 2 PUERTAS 920MM DE FRENTE","REFRIGERACION PROFESIONAL",25,503560.02],["ME-2P-SS-01","MESA PARA ENSALADAS 2 PUERTAS 1188MM DE FRENTE","REFRIGERACION PROFESIONAL",24,489499.38],["GPAS-02-00","ASADOR DE 2FT SILVER RADIANTES DE INOX","COCCIÓN",60,396835.79],["BME-2-120-EG-CT","BAÑO MARIA ELECTRICO DE 2 INSERTOS CON TINAS INCLUIDAS","MOBILIARIO",47,348899.4],["GPPL-02-00","PLANCHA DE 2FT SILVER","COCCIÓN",47,305858.77],["CV-1PS-SS-01","CONGELADOR EN INOXIDABLE 1 PUERTA SOLIDA","REFRIGERACION PROFESIONAL",14,301267.78],["RVI-400","REFRIGERADOR VERTICAL CON PUERTA EN INOX 13 PIES Y ETL","REFRIGERACION PROFESIONAL",21,229252.03],["RBB-1P-SS-01","REFRIGERADOR BAJO BARRA 1 PUERTA","REFRIGERACION PROFESIONAL",9,110988.24],["CTC-05-G","CONGELADOR TAPA DE COFRE DE 05 FT CU DRAGO","REFRIGERACION COMERCIAL",23,101586.33],["GPAS-03-00","ASADOR DE 3FT SILVER RADIANTES INOX","COCCIÓN",13,97835.03],["CTC-07-G","CONGELADOR TAPA DE COFRE DE 07 FT CU DRAGO","REFRIGERACION COMERCIAL",17,84711.73]]},"m25":[2901415.63,4874412.76,6632429.65,6607457.56,4207425.49,6033444.78,8225817.76,6689369.96,5411592.12,6075400.5,5011124.62,5869209.88]};
+const MES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MESL=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const fM=n=>'$'+Math.round(n).toLocaleString('es-MX');
+const fMs=n=>{n=n||0;const a=Math.abs(n);if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(a>=1e3)return '$'+(n/1e3).toFixed(1)+'K';return '$'+Math.round(n)};
+const fN=n=>Math.round(n).toLocaleString('es-MX');
+const fP=n=>(n>=0?'+':'')+n.toFixed(1)+'%';
+const cls=n=>n>0.5?'pos':(n<-0.5?'neg':'neu');
+const sum=a=>a.reduce((x,y)=>x+(y||0),0);
+const kpiCard=k=>`<div class="kpi ${k[3]||''}"><div class="bar"></div><div class="kt">${k[0]}</div><div class="kv">${k[1]}</div><div class="kd">${k[2]}</div>${k[4]||''}</div>`;
+const CATCOL={'COCCIÓN':'#5e6ad2','REFRIGERACION PROFESIONAL':'#3f8ef7','REFRIGERACION COMERCIAL':'#26a6c9','MOBILIARIO':'#219653','HORNOS':'#e0538d','PROCESAMIENTO':'#8b7ce7','BEBIDAS':'#55b467','SNACKS':'#d9a514','MAQUINAS DE HIELO':'#6f7076','LAVADO':'#9b9ea5','OTROS':'#9b9ea5'};
+const charts={};
+function mk(id,cfg){const el=document.getElementById(id);if(!el)return;if(charts[id])charts[id].destroy();charts[id]=new Chart(el,cfg);}
+Chart.defaults.font.family="'Inter',sans-serif";Chart.defaults.font.size=11.5;Chart.defaults.color='#6b6f76';
+const moneyTip={callbacks:{label:c=>' '+(c.dataset.label?c.dataset.label+': ':'')+fM(c.parsed.y??c.parsed.x??c.parsed)}};
+const gridX={grid:{display:false}}, gridY={grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}};
+
+let META=D.metaAnual;
+const N=6;
+const s26=sum(D.m26.slice(0,N));
+const s25jj=sum(D.m25jj), s26jj=sum(D.m26jj);
+
+/* ---- forecast ---- */
+const FC=(()=>{
+  const real=D.m26.slice(0,N);
+  const W=[1,1,2,2,3,3];let wr=0,ws=0;const rats=[];
+  for(let i=0;i<N;i++){if(D.m25[i]>0){const r=D.m26[i]/D.m25[i];rats.push(r);wr+=r*W[i];ws+=W[i];}}
+  const ratio=ws?wr/ws:1;
+  const mean=rats.length?sum(rats)/rats.length:1;
+  const sd=rats.length>1?Math.sqrt(rats.reduce((a,r)=>a+(r-mean)*(r-mean),0)/(rats.length-1)):0;
+  const seasonal=[];for(let mo=N;mo<12;mo++)seasonal.push(D.m25[mo]*ratio);
+  const xs=[1,2,3,4,5,6],n=N,sx=21,sy=s26,sxy=real.reduce((a,v,i)=>a+xs[i]*v,0),sxx=91;
+  const slope=(n*sxy-sx*sy)/(n*sxx-sx*sx),inter=(sy-slope*sx)/n;
+  const avgR=s26/N;
+  const trend=[];for(let mo=N+1;mo<=12;mo++){const tv=inter+slope*mo;trend.push(Math.max(0,avgR+(tv-avgR)*0.5));}
+  const proj=seasonal.map((v,i)=>v*0.6+trend[i]*0.4);
+  const bw=Math.min(0.25,ratio>0?sd/ratio:0.1);
+  const hi=proj.map(v=>v*(1+bw)),lo=proj.map(v=>Math.max(0,v*(1-bw)));
+  const full=[...real,...proj];
+  return {proj,hi,lo,full,close:sum(full),closeHi:s26+sum(hi),closeLo:s26+sum(lo)};
+})();
+
+/* ---- resumen ---- */
+function renderRes(){
+  const metaAcum=sum(D.metaMonthly.slice(0,N)), pace=metaAcum?s26/metaAcum*100:0;
+  const fac=sum(D.clients.map(c=>c.fac)), ticket=fac?s26/fac:0;
+  const ce=Object.entries(D.cat26), topCat=ce[0], top1=D.clients[0];
+  document.getElementById('kpi-res').innerHTML=[
+    ['Venta Ene–Jun 2026',fMs(s26),fN(D.clients.length)+' clientes · '+fN(fac)+' facturas','b-navy'],
+    ['Ritmo vs meta','<span class="'+(pace>=100?'up':(pace>=90?'':'down'))+'">'+pace.toFixed(1)+'%</span>','Deberíamos llevar '+fMs(metaAcum),'b-'+(pace>=100?'green':'amber')],
+    ['Ticket promedio',fMs(ticket),'Por factura emitida','b-blue'],
+    ['Categoría líder',topCat[0].length>18?topCat[0].slice(0,17)+'…':topCat[0],fMs(topCat[1])+' · '+(s26?(topCat[1]/s26*100).toFixed(0):0)+'% del total','b-teal'],
+    ['Cliente #1',top1.n.length>18?top1.n.slice(0,17)+'…':top1.n,fMs(top1.v)+' · '+(s26?(top1.v/s26*100).toFixed(0):0)+'% del total','b-purple'],
+    ['Falta para meta anual',fMs(Math.max(0,META-s26)),'Se requieren '+fMs(Math.max(0,META-s26)/6)+'/mes de Jul a Dic','b-green'],
+  ].map(kpiCard).join('');
+  document.getElementById('evol-hint').innerHTML='Verde = mes que cumplió su meta · azul = por debajo de la meta · línea punteada = meta mensual oficial (Jul–Dic aún sin venta)';
+  mk('c-evol',{data:{labels:MES,datasets:[
+    {type:'bar',label:'2026 real',data:D.m26.map((v,i)=>i<N?v:null),backgroundColor:D.m26.map((v,i)=>v>=D.metaMonthly[i]?'#219653':'#5e6ad2'),borderRadius:6},
+    {type:'line',label:'Meta mensual',data:D.metaMonthly,borderColor:'#c47f17',borderDash:[6,4],borderWidth:2,pointRadius:0}
+  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top'},tooltip:{...moneyTip,filter:i=>i.parsed.y!=null}},scales:{x:gridX,y:gridY}}});
+  let rows='';let accR=0,accM=0;
+  for(let i=0;i<N;i++){const v=D.m26[i];accR+=v;accM+=D.metaMonthly[i];const p=D.metaMonthly[i]?v/D.metaMonthly[i]*100:0;const pa=accM?accR/accM*100:0;
+    rows+=`<tr><td><b>${MESL[i]}</b></td><td class="num">${fM(D.metaMonthly[i])}</td><td class="num">${fM(v)}</td><td class="num ${p>=100?'pos':(p>=80?'':'neg')}">${p.toFixed(0)}%</td><td class="num">${fM(accR)}</td><td class="num ${pa>=100?'pos':(pa>=80?'':'neg')}">${pa.toFixed(0)}%</td></tr>`;}
+  rows+=`<tr class="tot"><td>TOTAL</td><td class="num">${fM(accM)}</td><td class="num">${fM(s26)}</td><td class="num ${s26>=accM?'pos':'neg'}">${(accM?s26/accM*100:0).toFixed(0)}%</td><td class="num">${fM(s26)}</td><td class="num"></td></tr>`;
+  document.getElementById('t-mes').innerHTML=`<thead><tr><th>Mes</th><th class="num">Meta</th><th class="num">Real</th><th class="num">% mes</th><th class="num">Acum.</th><th class="num">% acum.</th></tr></thead><tbody>${rows}</tbody>`;
+  const cumR=[],cumM=[];let a=0;
+  for(let i=0;i<12;i++)cumM.push(sum(D.metaMonthly.slice(0,i+1)));
+  a=0;for(let i=0;i<N;i++){a+=D.m26[i];cumR.push(a);}for(let i=N;i<12;i++)cumR.push(null);
+  mk('c-acum',{data:{labels:MES,datasets:[
+    {label:'Acumulado real',data:cumR,borderColor:'#5e6ad2',backgroundColor:'rgba(94,106,210,.07)',fill:true,borderWidth:3,tension:.25,pointRadius:3,type:'line'},
+    {label:'Ritmo de meta',data:cumM,borderColor:'#c6c8ce',borderWidth:2,pointRadius:0,type:'line'}
+  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top'},tooltip:{...moneyTip,filter:i=>i.parsed.y!=null}},scales:{x:gridX,y:gridY}}});
+  const ctot=sum(ce.map(e=>e[1]));
+  mk('c-cat',{type:'doughnut',data:{labels:ce.map(e=>e[0]),datasets:[{data:ce.map(e=>e[1]),backgroundColor:ce.map(e=>CATCOL[e[0]]||'#9b9ea5'),borderWidth:2,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:10.5}}},tooltip:{callbacks:{label:c=>' '+c.label+': '+fM(c.parsed)+' ('+(c.parsed/ctot*100).toFixed(1)+'%)'}}}}});
+}
+
+/* ---- clientes ---- */
+let cliSort={k:'v',d:-1};
+function renderCli(){
+  const tot=s26, arr=D.clients;
+  const top1=arr[0], top3=sum(arr.slice(0,3).map(c=>c.v));
+  const big=arr.filter(c=>c.v>=1e6).length;
+  document.getElementById('kpi-cli').innerHTML=[
+    ['Cliente #1',top1.n.length>16?top1.n.slice(0,15)+'…':top1.n,fMs(top1.v)+' · '+(tot?(top1.v/tot*100).toFixed(0):0)+'% del portafolio','b-navy'],
+    ['Concentración Top 3',(tot?top3/tot*100:0).toFixed(0)+'%',fMs(top3)+' entre 3 clientes','b-amber'],
+    ['Clientes nuevos 2026',fN(D.nuevos.length),'No compraron en 2025 · '+fMs(sum(arr.filter(c=>D.nuevos.includes(c.n)).map(c=>c.v))),'b-green'],
+    ['Clientes ≥ $1M',fN(big),'De '+fN(arr.length)+' activos','b-blue'],
+  ].map(kpiCard).join('');
+  const rev=[...arr].reverse();
+  mk('c-topcli',{type:'bar',data:{labels:rev.map(c=>c.n.length>24?c.n.slice(0,23)+'…':c.n),datasets:[{label:'Venta',data:rev.map(c=>c.v),backgroundColor:rev.map(c=>D.nuevos.includes(c.n)?'rgba(94,106,210,.35)':'#5e6ad2'),borderRadius:5}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fM(c.parsed.x)+' · '+(tot?(c.parsed.x/tot*100).toFixed(1):0)+'%'+(D.nuevos.includes(rev[c.dataIndex].n)?' · NUEVO 2026':'')}}},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  let cum=0;const cumP=arr.map(c=>{cum+=c.v;return tot?+(cum/tot*100).toFixed(1):0;});
+  let cut=cumP.findIndex(p=>p>=80);if(cut<0)cut=arr.length-1;
+  document.getElementById('pareto-hint').innerHTML='<b>'+(cut+1)+'</b> de '+arr.length+' clientes generan el <b>80%</b> de la venta';
+  mk('c-pareto',{data:{labels:arr.map(c=>c.n.slice(0,12)),datasets:[
+    {type:'bar',label:'Venta',data:arr.map(c=>c.v),backgroundColor:arr.map((c,i)=>i<=cut?'#5e6ad2':'#d4d6dc'),borderRadius:4,yAxisID:'y'},
+    {type:'line',label:'% acumulado',data:cumP,borderColor:'#17181c',borderWidth:2,pointRadius:2,tension:.2,yAxisID:'y1'}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>c.dataset.type=='line'?' '+c.parsed.y+'% acum.':' '+fM(c.parsed.y)}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},maxRotation:60,minRotation:45}},y:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y1:{position:'right',min:0,max:100,grid:{display:false},ticks:{callback:v=>v+'%'}}}}});
+  drawCliTable();
+  renderCliProds();
+}
+let cliSel=0;
+function renderCliProds(){
+  const names=D.clients.map(c=>c.n);
+  document.getElementById('tg-cliprod').innerHTML=names.map((n,i)=>'<button class="'+(i==cliSel?'on':'')+'" data-i="'+i+'" title="'+n+'">'+(n.length>16?n.slice(0,15)+'…':n)+'</button>').join('');
+  document.querySelectorAll('#tg-cliprod button').forEach(b=>b.onclick=()=>{cliSel=+b.dataset.i;renderCliProds();});
+  const name=names[cliSel];const list=(D.cliProds&&D.cliProds[name])||[];
+  const cl=D.clients[cliSel];
+  const topShare=cl.v&&list.length?sum(list.slice(0,3).map(a=>a[4]))/cl.v*100:0;
+  document.getElementById('cliprod-hint').innerHTML='<b>'+name+'</b> · compra Ene–Jun '+fMs(cl.v)+' en '+fN(cl.fac)+' facturas · sus 3 productos favoritos concentran el <b>'+topShare.toFixed(0)+'%</b> de su compra';
+  const arr=[...list].slice(0,12).reverse();
+  mk('c-cliprod',{type:'bar',data:{labels:arr.map(a=>a[0]),datasets:[{label:'Compra $',data:arr.map(a=>a[4]),backgroundColor:'#5e6ad2',borderRadius:5}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fM(c.parsed.x)+' · '+fN(arr[c.dataIndex][3])+' u · '+arr[c.dataIndex][1].slice(0,36)}}},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  document.getElementById('t-cliprod').innerHTML='<thead><tr><th>#</th><th>Código</th><th>Descripción</th><th class="num">Unid.</th><th class="num">Compra</th><th class="num">% del cliente</th></tr></thead><tbody>'+list.map((a,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+a[0]+'</b></td><td style="font-size:11px">'+a[1].slice(0,38)+'</td><td class="num">'+fN(a[3])+'</td><td class="num">'+fM(a[4])+'</td><td class="num">'+(cl.v?(a[4]/cl.v*100).toFixed(1):0)+'%</td></tr>').join('')+'</tbody>';
+}
+function sparkC(m){const mx=Math.max(...m,1);return '<span class="spark" title="'+m.map((v,i)=>MES[i]+': '+fMs(v)).join(' · ')+'">'+m.map(v=>'<i class="'+(v>0?'':'z')+'" style="height:'+(v>0?Math.max(14,v/mx*100):8)+'%"></i>').join('')+'</span>';}
+function drawCliTable(){
+  const q=(document.getElementById('s-cli').value||'').trim().toLowerCase();
+  let rows=[...D.clients];
+  if(q)rows=rows.filter(c=>c.n.toLowerCase().includes(q));
+  rows.sort((a,b)=>cliSort.d*((a[cliSort.k]||0)-(b[cliSort.k]||0)));
+  const arrow=k=>cliSort.k==k?(cliSort.d==-1?' ▼':' ▲'):'';
+  const body=rows.map((c,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+c.n+'</b>'+(D.nuevos.includes(c.n)?' <span class="bdg new">NUEVO</span>':'')+'</td><td>'+sparkC(c.m)+'</td><td class="num">'+fN(c.fac)+'</td><td class="num">'+fM(c.v)+'</td><td class="num">'+(s26?(c.v/s26*100).toFixed(1):0)+'%</td></tr>').join('');
+  document.getElementById('t-cli').innerHTML='<thead><tr><th>#</th><th>Cliente</th><th>Ene–Jun</th><th class="num sort" id="th-cfac">Facturas'+arrow('fac')+'</th><th class="num sort" id="th-cv">Venta'+arrow('v')+'</th><th class="num">% part.</th></tr></thead><tbody>'+(body||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">Sin resultados</td></tr>')+'</tbody>';
+  const t1=document.getElementById('th-cfac'),t2=document.getElementById('th-cv');
+  if(t1)t1.onclick=()=>{cliSort=cliSort.k=='fac'?{k:'fac',d:-cliSort.d}:{k:'fac',d:-1};drawCliTable();};
+  if(t2)t2.onclick=()=>{cliSort=cliSort.k=='v'?{k:'v',d:-cliSort.d}:{k:'v',d:-1};drawCliTable();};
+}
+
+/* ---- metas & forecast ---- */
+function renderMet(){
+  const metaAcum=sum(D.metaMonthly.slice(0,N)), pace=metaAcum?s26/metaAcum*100:0;
+  const avance=META?s26/META*100:0;
+  const rem=Math.max(0,META-s26), needM=rem/6;
+  const rowsMC=[...new Set([...Object.keys(D.metasCat),...Object.keys(D.cat26)])].map(c=>{
+    const m=D.metasCat[c];const per=m?sum(m.monthly.slice(0,N)):0;const anual=m?(m.anual||0):0;const r=D.cat26[c]||0;
+    return {c,per,anual,r,part:m?(m.part||0):0,cump:per>0?r/per*100:null,falta:Math.max(0,anual-r)};
+  }).filter(x=>x.per>0||x.r>0||x.anual>0).sort((a,b)=>(b.anual||b.r)-(a.anual||a.r));
+  const withMeta=rowsMC.filter(x=>x.cump!=null).sort((a,b)=>b.cump-a.cump);
+  const best=withMeta[0];
+  document.getElementById('kpi-met').innerHTML=[
+    ['Meta anual 2026',fMs(META),fM(META)+' · promedio '+fMs(META/12)+'/mes','b-navy'],
+    ['Avance de la meta',avance.toFixed(1)+'%',fMs(s26)+' vendidos de '+fMs(META),'b-green','<div class="mini-gauge"><span style="width:'+Math.min(100,avance)+'%"></span></div>'],
+    ['Ritmo al periodo',pace.toFixed(1)+'%','La meta pedía '+fMs(metaAcum)+' a junio · llevamos '+fMs(s26),'b-'+(pace>=100?'green':'amber')],
+    ['Falta para la meta',fMs(rem),'Se requieren '+fMs(needM)+'/mes de Jul a Dic','b-purple'],
+    ['Mejor categoría vs meta',best?(best.c.length>18?best.c.slice(0,17)+'…':best.c):'—',best?best.cump.toFixed(0)+'% de su meta Ene–Jun ('+fMs(best.r)+')':'','b-teal'],
+  ].map(kpiCard).join('');
+  const pct=[],cumPct=[];let cr=0,cm=0;
+  for(let i=0;i<N;i++){pct.push(D.metaMonthly[i]?+(D.m26[i]/D.metaMonthly[i]*100).toFixed(1):0);cr+=D.m26[i];cm+=D.metaMonthly[i];cumPct.push(cm?+(cr/cm*100).toFixed(1):0);}
+  const colp=v=>v>=100?'#219653':(v>=80?'#e0a63a':'#e5484d');
+  document.getElementById('pace-hint').innerHTML='Acumulado Ene–Jun · meta '+fMs(cm)+' · real '+fMs(cr)+' · cumplimiento <b>'+(cm?(cr/cm*100).toFixed(1):0)+'%</b>';
+  mk('c-pace',{data:{labels:MES.slice(0,N),datasets:[
+    {type:'bar',label:'% del mes',data:pct,backgroundColor:pct.map(colp),borderRadius:5},
+    {type:'line',label:'% acumulado',data:cumPct,borderColor:'#17181c',borderWidth:2.5,pointRadius:3,tension:.3}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+c.parsed.y+'%'}}},scales:{x:gridX,y:{beginAtZero:true,suggestedMax:120,grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>v+'%'}}}}});
+  let prows='';for(let i=0;i<N;i++){prows+='<tr><td><b>'+MESL[i]+'</b></td><td class="num">'+fM(D.metaMonthly[i])+'</td><td class="num">'+fM(D.m26[i])+'</td><td class="num '+(pct[i]>=100?'pos':(pct[i]>=80?'':'neg'))+'">'+pct[i]+'%</td><td class="num">'+cumPct[i]+'%</td></tr>';}
+  prows+='<tr class="tot"><td>TOTAL</td><td class="num">'+fM(cm)+'</td><td class="num">'+fM(cr)+'</td><td class="num '+(cr>=cm?'pos':'neg')+'">'+(cm?(cr/cm*100).toFixed(1):0)+'%</td><td class="num"></td></tr>';
+  document.getElementById('t-pace').innerHTML='<thead><tr><th>Mes</th><th class="num">Meta</th><th class="num">Real</th><th class="num">% mes</th><th class="num">% acum.</th></tr></thead><tbody>'+prows+'</tbody>';
+  const conMeta=rowsMC.filter(x=>x.per>0);
+  const totPer=sum(conMeta.map(x=>x.per)),totRP=sum(conMeta.map(x=>x.r));
+  document.getElementById('mc-hint').innerHTML='Meta Ene–Jun '+fM(totPer)+' · Real (categorías con meta) '+fM(totRP)+' · cumplimiento <b>'+(totPer?(totRP/totPer*100).toFixed(0):0)+'%</b>';
+  const colorOf=x=>x.cump==null?'#9b9ea5':(x.cump>=100?'#219653':(x.cump>=80?'#e0a63a':'#e5484d'));
+  mk('c-metacat',{type:'bar',data:{labels:conMeta.map(x=>x.c),datasets:[
+    {label:'Meta Ene–Jun',data:conMeta.map(x=>x.per),backgroundColor:'#c6c8ce',borderRadius:5},
+    {label:'Real',data:conMeta.map(x=>x.r),backgroundColor:conMeta.map(colorOf),borderRadius:5}
+  ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+fM(c.parsed.x)}}},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  document.getElementById('avance-list').innerHTML=rowsMC.map(x=>{
+    if(x.cump==null)return '<div class="avr"><div class="avr-h"><span class="avr-n">'+x.c+'</span><span class="avr-v">'+fMs(x.r)+' vendidos · <span class="neu">sin meta asignada</span></span></div><div class="avr-track"><span class="avr-fill" style="width:100%;background:#e3e4e8"></span></div></div>';
+    const pc=x.cump,w=Math.min(100,pc);
+    const col=pc>=100?'#219653':(pc>=80?'#e0a63a':'#e5484d');
+    const extra=pc>=100?' · <b style="color:#219653">meta del periodo cubierta</b>':'';
+    return '<div class="avr"><div class="avr-h"><span class="avr-n">'+x.c+'</span><span class="avr-v"><b style="color:'+col+'">'+pc.toFixed(0)+'%</b> · '+fMs(x.r)+' de '+fMs(x.per)+' (anual '+fMs(x.anual)+')'+extra+'</span></div><div class="avr-track"><span class="avr-fill" style="width:'+w+'%;background:'+col+'"></span><i class="avr-50"></i></div></div>';
+  }).join('');
+  const Q=[[0,1,2],[3,4,5],[6,7,8],[9,10,11]],QL=['Q1','Q2','Q3','Q4'];
+  const mQ=Q.map(q=>sum(q.map(i=>D.metaMonthly[i])));
+  const rQ=Q.map(q=>sum(q.map(i=>i<N?D.m26[i]:0)));
+  const q1=mQ[0]?rQ[0]/mQ[0]*100:0,q2=mQ[1]?rQ[1]/mQ[1]*100:0;
+  document.getElementById('q-hint').innerHTML='Q1 <b>'+q1.toFixed(0)+'%</b> · Q2 <b>'+q2.toFixed(0)+'%</b> · Q3 y Q4 aún sin venta (meta '+fMs(mQ[2])+' y '+fMs(mQ[3])+')';
+  mk('c-quarters',{type:'bar',data:{labels:QL,datasets:[
+    {label:'Meta',data:mQ,backgroundColor:'#c6c8ce',borderRadius:5},
+    {label:'Real',data:rQ.map((v,i)=>i<2?v:0),backgroundColor:['#5e6ad2','#5e6ad2','#e3e4e8','#e3e4e8'],borderRadius:5}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:moneyTip},scales:{x:gridX,y:gridY}}});
+  let qrows='';
+  Q.forEach((q,qi)=>{
+    const anyR=q.some(i=>i<N);const cmp=anyR&&mQ[qi]?rQ[qi]/mQ[qi]*100:null;
+    qrows+='<tr class="tot"><td>'+QL[qi]+' <span style="font-weight:500;color:var(--muted);font-size:11px">('+MES[q[0]]+'–'+MES[q[2]]+')</span></td><td class="num">'+fM(mQ[qi])+'</td><td class="num">'+(anyR?fM(rQ[qi]):'—')+'</td><td class="num '+(cmp==null?'':(cmp>=100?'pos':(cmp>=80?'':'neg')))+'">'+(cmp==null?'—':cmp.toFixed(0)+'%')+'</td></tr>';
+    q.forEach(i=>{const r=i<N?D.m26[i]:null,c=(r!=null&&D.metaMonthly[i])?r/D.metaMonthly[i]*100:null;
+      qrows+='<tr><td style="padding-left:20px">'+MESL[i]+'</td><td class="num">'+fM(D.metaMonthly[i])+'</td><td class="num">'+(r==null?'—':fM(r))+'</td><td class="num '+(c==null?'':(c>=100?'pos':(c>=80?'':'neg')))+'">'+(c==null?'—':c.toFixed(0)+'%')+'</td></tr>';});
+  });
+  const mTot=sum(D.metaMonthly);
+  qrows+='<tr class="tot"><td>TOTAL AÑO</td><td class="num">'+fM(mTot)+'</td><td class="num">'+fM(s26)+'</td><td class="num">'+(mTot?(s26/mTot*100).toFixed(0):0)+'%</td></tr>';
+  document.getElementById('t-quarters').innerHTML='<thead><tr><th>Periodo</th><th class="num">Meta</th><th class="num">Real</th><th class="num">Cumpl.</th></tr></thead><tbody>'+qrows+'</tbody>';
+  const mrows=rowsMC.map(x=>{
+    const cumpTxt=x.cump==null?'<span class="neu">—</span>':'<span class="'+(x.cump>=100?'pos':(x.cump>=80?'':'neg'))+'">'+x.cump.toFixed(0)+'%</span>';
+    const avA=x.anual>0?(x.r/x.anual*100).toFixed(0)+'%':'—';
+    return '<tr><td><b>'+x.c+'</b></td><td class="num">'+(x.part?(x.part*100).toFixed(0)+'%':'—')+'</td><td class="num">'+(x.anual?fM(x.anual):'—')+'</td><td class="num">'+(x.anual?fM(x.anual/12):'—')+'</td><td class="num">'+(x.per?fM(x.per):'—')+'</td><td class="num">'+fM(x.r)+'</td><td class="num">'+cumpTxt+'</td><td class="num">'+avA+'</td><td class="num">'+(x.anual?fM(x.falta):'—')+'</td></tr>';
+  }).join('');
+  const totFalta=Math.max(0,META-s26);
+  const mtot='<tr class="tot"><td>TOTAL</td><td class="num">100%</td><td class="num">'+fM(META)+'</td><td class="num">'+fM(META/12)+'</td><td class="num">'+fM(metaAcum)+'</td><td class="num">'+fM(s26)+'</td><td class="num '+(s26>=metaAcum?'pos':'neg')+'">'+(metaAcum?(s26/metaAcum*100).toFixed(0):0)+'%</td><td class="num">'+(META?(s26/META*100).toFixed(0):0)+'%</td><td class="num">'+fM(totFalta)+'</td></tr>';
+  document.getElementById('t-metas').innerHTML='<thead><tr><th>Categoría</th><th class="num">% part.</th><th class="num">Meta anual</th><th class="num">Meta mensual</th><th class="num">Meta Ene–Jun</th><th class="num">Real Ene–Jun</th><th class="num">Cumpl. periodo</th><th class="num">Avance anual</th><th class="num">Falta (anual)</th></tr></thead><tbody>'+mrows+mtot+'</tbody>';
+
+  const cierre=FC.close, cumplC=META?cierre/META*100:0;
+  const estado=cumplC>=100?['ok','META SE ALCANZA']:(META&&FC.closeHi>=META?['mid','POSIBLE EN ESCENARIO ALTO']:['bad','POR DEBAJO DE META']);
+  document.getElementById('kpi-fc').innerHTML=[
+    ['Cierre esperado 2026',fMs(cierre),'<span class="rstate '+estado[0]+'">'+estado[1]+'</span> '+cumplC.toFixed(0)+'% de la meta anual','b-purple'],
+    ['Rango de escenarios',fMs(FC.closeLo)+' – '+fMs(FC.closeHi),(META?(FC.closeLo/META*100).toFixed(0):0)+'% a '+(META?(FC.closeHi/META*100).toFixed(0):0)+'% de la meta','b-blue'],
+    ['Venta esperada Jul–Dic',fMs(Math.max(0,cierre-s26)),'La meta pide '+fMs(rem)+' en ese periodo','b-amber'],
+  ].map(kpiCard).join('');
+  const bandHi=FC.full.map((v,i)=>i<N-1?null:(i<N?D.m26[N-1]:FC.hi[i-N]));
+  const bandLo=FC.full.map((v,i)=>i<N-1?null:(i<N?D.m26[N-1]:FC.lo[i-N]));
+  mk('c-fc',{data:{labels:MES,datasets:[
+    {label:'Banda optimista',data:bandHi,borderColor:'rgba(139,124,231,0)',backgroundColor:'rgba(139,124,231,.13)',pointRadius:0,borderWidth:0,tension:.3,type:'line',fill:'+1'},
+    {label:'Banda pesimista',data:bandLo,borderColor:'rgba(139,124,231,0)',backgroundColor:'transparent',pointRadius:0,borderWidth:0,tension:.3,type:'line'},
+    {label:'2026 real',data:FC.full.map((v,i)=>i<N?v:null),borderColor:'#5e6ad2',backgroundColor:'rgba(94,106,210,.07)',fill:true,borderWidth:3,tension:.3,pointRadius:3,type:'line'},
+    {label:'2026 proyectado',data:FC.full.map((v,i)=>i>=N-1?v:null),borderColor:'#8b7ce7',borderDash:[6,4],borderWidth:3,tension:.3,pointRadius:3,type:'line'},
+    {label:'Meta mensual',data:D.metaMonthly,borderColor:'#c47f17',borderDash:[3,3],borderWidth:1.5,pointRadius:0,type:'line'}
+  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{filter:it=>it.text.indexOf('Banda')<0}},tooltip:{...moneyTip,filter:it=>it.parsed.y!=null}},scales:{x:gridX,y:gridY}}});
+  let frows='';for(let mo=0;mo<12;mo++){const isR=mo<N;const v=FC.full[mo];const dm=D.metaMonthly[mo]?v/D.metaMonthly[mo]*100:0;
+    frows+='<tr><td><b>'+MESL[mo]+'</b> '+(isR?'<span class="bdg a" style="font-size:9px">real</span>':'<span class="bdg b" style="font-size:9px">proy</span>')+'</td><td class="num">'+fM(D.metaMonthly[mo])+'</td><td class="num">'+fM(v)+'</td><td class="num" style="color:var(--muted)">'+(isR?'—':fMs(FC.lo[mo-N])+' – '+fMs(FC.hi[mo-N]))+'</td><td class="num '+(dm>=100?'pos':(dm>=80?'':'neg'))+'">'+dm.toFixed(0)+'%</td></tr>';}
+  frows+='<tr class="tot"><td>CIERRE</td><td class="num">'+fM(sum(D.metaMonthly))+'</td><td class="num">'+fM(cierre)+'</td><td class="num" style="color:var(--muted)">'+fMs(FC.closeLo)+' – '+fMs(FC.closeHi)+'</td><td class="num '+(cumplC>=100?'pos':'neg')+'">'+cumplC.toFixed(0)+'%</td></tr>';
+  document.getElementById('t-fc').innerHTML='<thead><tr><th>Mes</th><th class="num">Meta</th><th class="num">2026 (real/proy)</th><th class="num">Rango</th><th class="num">% de meta</th></tr></thead><tbody>'+frows+'</tbody>';
+}
+
+/* ---- comparativo ---- */
+function renderComp(){
+  const dif=s26jj-s25jj, difp=s25jj?dif/s25jj*100:0;
+  document.getElementById('kpi-comp').innerHTML=[
+    ['Coincidentes 2025',fMs(s25jj),'Ene–Jun · 5 clientes','b-navy'],
+    ['Coincidentes 2026',fMs(s26jj),'Ene–Jun · mismos 5 clientes','b-purple'],
+    ['Diferencia $','<span class="'+(dif>=0?'up':'down')+'">'+(dif>=0?'+':'')+fMs(dif)+'</span>','2026 vs 2025 comparable','b-'+(dif>=0?'green':'amber')],
+    ['Crecimiento','<span class="'+(difp>=0?'up':'down')+'">'+fP(difp)+'</span>','Clientes coincidentes','b-'+(difp>=0?'green':'amber')],
+  ].map(kpiCard).join('');
+  mk('c-comp',{data:{labels:MES.slice(0,6),datasets:[
+    {type:'bar',label:'2025',data:D.m25jj,backgroundColor:'#c6c8ce',borderRadius:5},
+    {type:'bar',label:'2026',data:D.m26jj,backgroundColor:'#5e6ad2',borderRadius:5}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:moneyTip},scales:{x:gridX,y:gridY}}});
+  let rows='';for(let mo=0;mo<6;mo++){const d=D.m26jj[mo]-D.m25jj[mo],p=D.m25jj[mo]?d/D.m25jj[mo]*100:0;
+    rows+=`<tr><td><b>${MESL[mo]}</b></td><td class="num">${fM(D.m25jj[mo])}</td><td class="num">${fM(D.m26jj[mo])}</td><td class="num ${cls(d)}">${(d>=0?'+':'')+fM(d)}</td><td class="num ${cls(p)}">${fP(p)}</td></tr>`;}
+  rows+=`<tr class="tot"><td>TOTAL</td><td class="num">${fM(s25jj)}</td><td class="num">${fM(s26jj)}</td><td class="num ${cls(dif)}">${(dif>=0?'+':'')+fM(dif)}</td><td class="num ${cls(difp)}">${fP(difp)}</td></tr>`;
+  document.getElementById('t-comp').innerHTML=`<thead><tr><th>Mes</th><th class="num">2025</th><th class="num">2026</th><th class="num">Var $</th><th class="num">Var %</th></tr></thead><tbody>${rows}</tbody>`;
+  const cliRows=D.matched.map(n=>({n,a:D.cli25jj[n]||0,b:D.cli26jj[n]||0})).map(x=>({...x,p:x.a?(x.b-x.a)/x.a*100:(x.b>0?100:0)})).sort((x,y)=>(y.a+y.b)-(x.a+x.b));
+  mk('c-compcli',{type:'bar',data:{labels:cliRows.map(x=>x.n.length>20?x.n.slice(0,19)+'…':x.n),datasets:[
+    {label:'2025',data:cliRows.map(x=>x.a),backgroundColor:'#c6c8ce',borderRadius:5},
+    {label:'2026',data:cliRows.map(x=>x.b),backgroundColor:'#5e6ad2',borderRadius:5}
+  ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:moneyTip},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  document.getElementById('t-compcli').innerHTML='<thead><tr><th>Cliente</th><th class="num">2025</th><th class="num">2026</th><th class="num">Var %</th></tr></thead><tbody>'+cliRows.map(x=>`<tr><td>${x.n}</td><td class="num">${fM(x.a)}</td><td class="num">${fM(x.b)}</td><td class="num ${cls(x.p)}">${fP(x.p)}</td></tr>`).join('')+'</tbody>';
+  const cats=[...new Set([...Object.keys(D.cat25jj),...Object.keys(D.cat26jj)])];
+  const cc=cats.map(c=>({c,a:D.cat25jj[c]||0,b:D.cat26jj[c]||0})).map(x=>({...x,p:x.a?(x.b-x.a)/x.a*100:(x.b>0?100:0)})).sort((x,y)=>(y.a+y.b)-(x.a+x.b));
+  mk('c-compcat',{type:'bar',data:{labels:cc.map(x=>x.c.length>20?x.c.slice(0,19)+'…':x.c),datasets:[
+    {label:'2025',data:cc.map(x=>x.a),backgroundColor:'#c6c8ce',borderRadius:5},
+    {label:'2026',data:cc.map(x=>x.b),backgroundColor:'#5e6ad2',borderRadius:5}
+  ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:moneyTip},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>fMs(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  document.getElementById('t-compcat').innerHTML='<thead><tr><th>Categoría</th><th class="num">2025</th><th class="num">2026</th><th class="num">Var %</th></tr></thead><tbody>'+cc.map(x=>`<tr><td>${x.c}</td><td class="num">${fM(x.a)}</td><td class="num">${fM(x.b)}</td><td class="num ${cls(x.p)}">${fP(x.p)}</td></tr>`).join('')+'</tbody>';
+}
+
+/* ---- productos ---- */
+let prodMode='money';
+let prodSort={k:'v',d:-1};
+let mesSel=5;
+function renderProd(){
+  const q=(document.getElementById('s-prod').value||'').trim().toLowerCase();
+  const all=[...D.prods].sort((a,b)=>b.v-a.v);
+  const tt=sum(all.map(a=>a.v));let cu=0;
+  all.forEach(a=>{cu+=a.v;a.abc=tt&&cu/tt*100<=80?'A':(cu/tt*100<=95?'B':'C');});
+  const fil=q?all.filter(a=>a.c.toLowerCase().includes(q)||a.d.toLowerCase().includes(q)||a.g.toLowerCase().includes(q)):all;
+  const totU=sum(all.map(a=>a.u)),lead=all[0],nA=all.filter(a=>a.abc=='A').length;
+  document.getElementById('kpi-prod').innerHTML=[
+    ['SKUs con venta',fN(all.length),q?'<b>'+fN(fil.length)+'</b> coinciden con la búsqueda':'Códigos distintos en Ene–Jun','b-navy'],
+    ['Unidades totales',fN(totU),'Equipos facturados 2026','b-blue'],
+    ['Producto líder',lead?lead.c:'—',lead?fMs(lead.v)+' · '+(tt?(lead.v/tt*100).toFixed(1):0)+'% de la venta':'','b-amber'],
+    ['Núcleo 80% (clase A)',fN(nA)+' códigos',(all.length?(nA/all.length*100).toFixed(0):0)+'% del catálogo concentra el 80%','b-green'],
+  ].map(kpiCard).join('');
+  const arr=[...fil].sort((a,b)=>prodMode=='money'?b.v-a.v:b.u-a.u).slice(0,20).reverse();
+  document.getElementById('top-hint').innerHTML=q?'Mostrando <b>'+Math.min(20,fil.length)+'</b> de '+fN(fil.length)+' resultados de la búsqueda':'Alterna entre pesos y unidades · responde a la búsqueda';
+  mk('c-top',{type:'bar',data:{labels:arr.map(a=>a.c),datasets:[{label:prodMode=='money'?'Venta $':'Unidades',data:arr.map(a=>prodMode=='money'?a.v:a.u),backgroundColor:'#3f8ef7',borderRadius:5}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+(prodMode=='money'?fM(c.parsed.x):fN(c.parsed.x)+' u')+' · '+arr[c.dataIndex].d.slice(0,40)}}},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>prodMode=='money'?fMs(v):fN(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+  drawProdTable(fil,tt);
+  renderTopMes(fil);
+}
+function renderTopMes(fil){
+  document.getElementById('tg-mes').innerHTML=MES.slice(0,6).map((m,i)=>'<button class="'+(i==mesSel?'on':'')+'" data-i="'+i+'">'+m+'</button>').join('');
+  document.querySelectorAll('#tg-mes button').forEach(b=>b.onclick=()=>{mesSel=+b.dataset.i;renderProd();});
+  const key=prodMode=='money'?'vm':'m';
+  const arr=[...fil].filter(a=>a[key]&&a[key][mesSel]>0).sort((x,y)=>y[key][mesSel]-x[key][mesSel]).slice(0,15).reverse();
+  const totMes=sum(fil.map(a=>a[key]?a[key][mesSel]:0));
+  document.getElementById('topmes-hint').innerHTML='Top <b>'+arr.length+'</b> códigos de <b>'+MESL[mesSel]+'</b> por '+(prodMode=='money'?'venta $':'unidades')+' · total del mes '+(prodMode=='money'?fMs(totMes):fN(totMes)+' u')+' · responde a la búsqueda y al selector $/unidades';
+  mk('c-topmes',{type:'bar',data:{labels:arr.map(a=>a.c),datasets:[{label:MESL[mesSel],data:arr.map(a=>a[key][mesSel]),backgroundColor:'#5e6ad2',borderRadius:5}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+(prodMode=='money'?fM(c.parsed.x):fN(c.parsed.x)+' u')+' · '+arr[c.dataIndex].d.slice(0,40)}}},scales:{x:{grid:{color:'rgba(23,24,28,.06)'},ticks:{callback:v=>prodMode=='money'?fMs(v):fN(v)}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+function spark(m){const mx=Math.max(...m,1);return '<span class="spark" title="'+m.map((v,i)=>MES[i]+': '+fN(v)+' u').join(' · ')+'">'+m.map(v=>'<i class="'+(v>0?'':'z')+'" style="height:'+(v>0?Math.max(14,v/mx*100):8)+'%"></i>').join('')+'</span>';}
+function drawProdTable(fil,tt){
+  const rows=[...fil].sort((a,b)=>prodSort.d*((a[prodSort.k]||0)-(b[prodSort.k]||0)));
+  const arrow=k=>prodSort.k==k?(prodSort.d==-1?' ▼':' ▲'):'';
+  const body=rows.map((a,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+a.c+'</b></td><td style="font-size:11px">'+a.d.slice(0,40)+'</td><td style="font-size:11px">'+a.g+'</td><td>'+spark(a.m)+'</td><td class="num">'+fN(a.u)+'</td><td class="num">'+fM(a.v)+'</td><td class="num">'+(tt?(a.v/tt*100).toFixed(1):0)+'%</td><td><span class="bdg '+a.abc.toLowerCase()+'">'+a.abc+'</span></td></tr>').join('');
+  document.getElementById('t-prod').innerHTML='<thead><tr><th>#</th><th>Código</th><th>Descripción</th><th>Categoría</th><th>Ene–Jun</th><th class="num sort" id="th-u">Unid.'+arrow('u')+'</th><th class="num sort" id="th-v">Venta'+arrow('v')+'</th><th class="num">% part.</th><th>ABC</th></tr></thead><tbody>'+(body||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:22px">Sin resultados para la búsqueda</td></tr>')+'</tbody>';
+  const th1=document.getElementById('th-u'),th2=document.getElementById('th-v');
+  if(th1)th1.onclick=()=>{prodSort=prodSort.k=='u'?{k:'u',d:-prodSort.d}:{k:'u',d:-1};renderProd();};
+  if(th2)th2.onclick=()=>{prodSort=prodSort.k=='v'?{k:'v',d:-prodSort.d}:{k:'v',d:-1};renderProd();};
+}
+
+/* ---- routing ---- */
+function activeT(){return document.querySelector('.tab.active').dataset.t;}
+function renderActive(){const t=activeT();if(t=='res')renderRes();else if(t=='cli')renderCli();else if(t=='met')renderMet();else if(t=='comp')renderComp();else renderProd();}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+b.dataset.t).classList.add('active');renderActive();});
+document.getElementById('s-prod').oninput=renderProd;
+document.getElementById('s-cli').oninput=drawCliTable;
+document.querySelectorAll('#tg-prod button').forEach(b=>b.onclick=()=>{prodMode=b.dataset.m;document.querySelectorAll('#tg-prod button').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderProd();});
+renderRes();
+</script>
+</body>
+</html>
